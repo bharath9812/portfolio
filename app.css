@@ -277,6 +277,12 @@ section {
 
 /* ABOUT SECTION */
 
+#mydescription{
+  line-height: 1.5;
+  text-align: justify;
+  hyphens: auto;
+}
+
 #about {
   position: relative;
 }
