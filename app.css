@@ -455,6 +455,12 @@ footer p {
   text-align: center;
 }
 
+#cert {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px; /* Adjust the gap between elements if needed */
+}
 
 
 
