@@ -790,4 +790,58 @@ body {
   overflow: hidden; /* Prevents content from overflowing */
 }
 
+/* Projects Section new CSS on 1st May 2025 */
 
+#projects {
+  margin-top: 4rem;
+}
+
+.title {
+  margin-bottom: 2rem; /* Adds space after the heading */
+}
+
+.projects-wrapper {
+  border: 2px solid #333;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: #fafafa;
+}
+
+.project-box {
+  border: 1px solid #444;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.project-info {
+  flex: 1 1 60%;
+  font-size: 1rem;
+  color: #222;
+}
+
+.project-buttons {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.5rem 1.2rem;
+  background-color: transparent;
+  border: 1px solid #333;
+  color: #000;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #333;
+  color: #fff;
+}
