@@ -850,3 +850,112 @@ body {
   background-color: #333;
   color: #fff;
 }
+
+
+
+
+/* ==================================  */
+.certification-container {
+  border: 2px solid #333; /* match projects-wrapper border thickness & color */
+  padding: 2rem; /* same padding as projects-wrapper */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem; /* same gap as projects-wrapper */
+  background-color: #fafafa; /* same bg as projects-wrapper */
+}
+
+.cert-card {
+  border: 1px solid #444; /* match project-box border color */
+  padding: 1rem; /* match project-box padding */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.cert-card p {
+  margin: 0;
+  flex: 1 1 60%; /* match project-info flex basis */
+  font-size: 1rem;
+  color: #222;
+  text-align: left;
+}
+
+.btn.btn-primary {
+  padding: 0.5rem 1.2rem; /* match btn padding */
+  border: 1px solid #333; /* match btn border */
+  background-color: transparent; /* match btn default bg */
+  color: #000;
+  border-radius: 5px; /* match btn radius */
+  font-weight: 600;
+  transition: 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.btn.btn-primary:hover {
+  background-color: #333; /* same hover bg */
+  color: #fff; /* same hover text color */
+}
+
+
+
+
+
+.cert-embed {
+  width: 150px;
+  height: 270px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background-color: #fff;
+  text-decoration: none;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.cert-embed:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.cert-embed img {
+  width: 80px;
+  height: 80px;
+  margin-top: 1rem;
+  object-fit: contain;
+}
+
+.cert-meta {
+  padding: 0.5rem 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cert-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0.5rem 0 0.2rem;
+}
+
+.cert-issuer {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: #666;
+  margin: 0;
+}
+
+.cert-footer {
+  font-size: 0.6rem;
+  color: #bbb;
+  border-top: 1px solid #eee;
+  width: 100%;
+  padding: 0.5rem 0 0;
+  margin-top: auto;
+}
