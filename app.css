@@ -1,18 +1,38 @@
 /* GENERAL */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400&display=swap'); /* Added Jost import */
 
-* {
-  margin: 0;
-  padding: 0;
-}
 
-body {
-  font-family: "Poppins", sans-serif;
+:root {
+  --primary-text-color: #333333;
+  --secondary-text-color: #555555;
+  --accent-color: #000000; /* Pure black for strong accents */
+  --background-color: #ffffff;
+  --light-grey-border: #eeeeee;
+  --medium-grey-border: #dddddd;
+  --subtle-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --section-padding-block: 8vh; /* Vertical padding for sections */
+  --container-max-width: 1100px;
+  --card-border-radius: 6px;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 12vh; /* FIX: Added to prevent content being hidden by fixed nav */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif; /* Keep Poppins as the primary font for the body */
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  line-height: 1.7; /* Increased line height for readability */
 }
 
 p {
@@ -36,7 +56,7 @@ nav,
 nav {
   justify-content: space-around;
   align-items: center;
-  height: 17vh;
+  height: 17vh; /* This height will be overridden by #desktop-nav */
 }
 
 .nav-links {
@@ -64,6 +84,23 @@ a:hover {
 
 .logo:hover {
   cursor: default;
+}
+
+/* static top bar */
+
+#desktop-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--light-grey-border);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 12vh;
+  padding: 0 5%;
 }
 
 /* mobile MENU */
@@ -134,45 +171,45 @@ a:hover {
   transform: rotate(-45deg) translate(10px, -5px);
 }
 
-.mobile-icon span:first-child {
-  transform: none;
+
+/* SECTIONS - CONSOLIDATED AND CORRECTED */
+main {
+    padding-top: 12vh; /* Account for fixed nav height, so content starts below it */
 }
-
-.mobile-icon span:first-child {
-  opacity: 1;
-}
-
-.mobile-icon span:first-child {
-  transform: none;
-}
-
-/* SECTIONS */
-
-
-
-.circular-square { 
-  border-top-left-radius: 50% 50%; 
-  border-top-right-radius: 50% 50%; 
-  border-bottom-right-radius: 50% 50%; 
-  border-bottom-left-radius: 50% 50%; 
-} 
 
 section {
-  padding-top: 4vh;
-  height: 96vh;
-  margin: 0 10rem;
-  box-sizing: border-box;
-  min-height: fit-content;
+  padding-block: var(--section-padding-block); /* Vertical padding from root variable */
+  margin-inline: auto; /* KEY FOR HORIZONTAL CENTERING */
+  max-width: var(--container-max-width); /* Limits content width */
+  padding-inline: 5%; /* Horizontal padding within the max-width container */
+  min-height: fit-content; /* Allows section to grow with content */
+  box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height */
+
+  padding-top: 4vh; /* Specific top padding for sections, combined from your original styles */
+}
+
+section:not(:last-child) {
+    border-bottom: 1px solid var(--light-grey-border); /* Subtle separator between sections */
 }
 
 
+.circular-square {
+  border-top-left-radius: 50% 50%;
+  border-top-right-radius: 50% 50%;
+  border-bottom-right-radius: 50% 50%;
+  border-bottom-left-radius: 50% 50%;
+}
+
 .design-section{
-  height: 112vh;
+  /* height: 112vh; - Apply specific heights to individual sections if needed, not globally */
 }
 
 .section-container {
   display: flex;
+  gap: 4rem;
+  height: 80%;
 }
+
 
 /* PROFILE SECTION */
 
@@ -180,7 +217,7 @@ section {
   display: flex;
   justify-content: center;
   gap: 5rem;
-  height: 80vh;
+  height: 80vh; /* Specific height for profile section */
 }
 
 .section__pic-container {
@@ -253,7 +290,11 @@ section {
   cursor: pointer;
 }
 
-.btn-color-1,
+.btn-color-1 {
+  background: rgb(53, 53, 53);
+  color: white;
+}
+
 .btn-color-2:hover {
   background: rgb(53, 53, 53);
   color: white;
@@ -269,10 +310,6 @@ section {
 
 .btn-color-2:hover {
   border: rgb(255, 255, 255) 0.1rem solid;
-}
-
-.btn-container {
-  gap: 1rem;
 }
 
 /* ABOUT SECTION */
@@ -316,30 +353,12 @@ section {
 .details-container {
   padding: 1.5rem;
   flex: 1;
-  /* background: white; */
-  /* border-radius: 2rem; */
   border: 2px solid #333;
-  border: rgb(53, 53, 53) 0.1rem solid;
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* border-color: rgb(163, 163, 163); */
   background-color: #fafafa;
   gap: 2rem;
   text-align: center;
 }
 
-
-
-.section-container {
-  gap: 4rem;
-  height: 80%;
-}
-
-.section__pic-container {
-  height: 400px;
-  width: 400px;
-  margin: auto 0;
-}
 
 /* EXPERIENCE SECTION */
 
@@ -384,423 +403,10 @@ article .icon {
 
 #projects {
   position: relative;
-}
-
-.color-container {
-  border-color: rgb(163, 163, 163);
-  background: rgb(250, 250, 250);
-}
-
-.project-img {
-  border-radius: 1rem;
-  width: 90%;
-  height: 90%;
-}
-
-.project-title {
-  margin: 1rem;
-  color: black;
-}
-
-.project-btn {
-  color: black;
-  border-color: rgb(163, 163, 163);
-}
-
-/* CONTACT */
-
-#contact {
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  height: 70vh;
-}
-
-.contact-info-upper-container {
-  display: flex;
-  justify-content: center;
-  border-radius: 2rem;
-  border: rgb(53, 53, 53) 0.1rem solid;
-  border-color: rgb(163, 163, 163);
-  background: (250, 250, 250);
-  margin: 2rem auto;
-  padding: 0.5rem;
-}
-
-.contact-info-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  margin: 1rem;
-}
-
-.contact-info-container p {
-  font-size: larger;
-}
-
-.contact-icon {
-  cursor: default;
-}
-
-.email-icon {
-  height: 2.5rem;
-}
-
-/* FOOTER SECTION */
-
-footer {
-  height: 26vh;
-  margin: 0 1rem;
-}
-
-footer p {
-  text-align: center;
-}
-
-#cert {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px; /* Adjust the gap between elements if needed */
-}
-
-
-
-/*        Qualification Section       */
-
-
-#qualification{
-  margin-bottom: 4vh
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400&display=swap');
-.design-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #ffffff;
-  min-height: 100vh;
-  padding: 100px 0;
-  font-family: Jost;
-}
-
-.design {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.timeline {
-  width: 90%;
-  height: auto;
-  max-width: 900px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.timeline-content {
-  padding: 20px;
-  background: #1f1f1f;
-  /* -webkit-box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #242424; */
-  /* box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #242424; */
-  border-radius: 5px;
-  color: white;
-  padding: 1.75rem;
-  transition: 0.4s ease;
-  overflow-wrap: break-word !important;
-  margin: 1rem;
-  margin-bottom: 20px;
-  border-radius: 6px;
-}
-/* 
-.timeline-content {
-  padding: 20px;
-
-  border-radius: 5px;
-  color: white;
-  padding: 1.75rem;
-  transition: 0.4s ease;
-  overflow-wrap: break-word !important;
-  margin: 1rem;
-  margin-bottom: 20px;
-} */
-
-
-.timeline-component {
-  margin: 0px 20px 20px 20px;
-}
-
-@media screen and (min-width: 768px) {
-  .timeline {
-    display: grid;
-    grid-template-columns: 1fr 3px 1fr;
-  }
-  .timeline-middle {
-    position: relative;
-    background-image: linear-gradient(45deg, #F27121, #E94057, #8A2387);
-    width: 3px;
-    height: 100%;
-  }
-  .main-middle {
-    opacity: 0;
-  }
-  .timeline-circle {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background-image: linear-gradient(45deg, #F27121, #E94057, #8A2387);
-    transform: translateX(-50%);
-  }
-
-  /* Adjust the width of timeline components */
-  .timeline-component.timeline-content {
-    width: 80%; /* Set the width to 80% of the screen */
-    margin: 0 10%; /* Add 10% margin on either side */
-  }
-}
-
-
-
-
-/* 
-
-.circular--square { 
-  border-top-left-radius: 50% 50%; 
-  border-top-right-radius: 50% 50%; 
-  border-bottom-right-radius: 50% 50%; 
-  border-bottom-left-radius: 50% 50%; 
-} */
-
-
-
-
-
-
-
-/*        Qualification       */
-
-
-
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #ffffff;
-}
-
-.timeline {
-  position: relative;
-  width: 100%;
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 15px 0;
-}
-
-.timeline::after {
-  content: '';
-  position: absolute;
-  width: 2px;
-  background: #000000;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  margin-left: -1px;
-}
-
-.container {
-  padding: 15px 30px;
-  position: relative;
-  background: inherit;
-  width: 50%;
-}
-
-.container.left {
-  left: 0;
-}
-
-.container.right {
-  left: 50%;
-}
-
-.container::after {
-  content: '';
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  top: calc(50% - 8px);
-  right: -8px;
-  background: #ffffff;
-  border: 2px solid #000000;
-  border-radius: 16px;
-  z-index: 1;
-}
-
-.container.right::after {
-  left: -8px;
-}
-
-.container::before {
-  content: '';
-  position: absolute;
-  width: 50px;
-  height: 2px;
-  top: calc(50% - 1px);
-  right: 8px;
-  background: #000000;
-  z-index: 1;
-}
-
-.container.right::before {
-  left: 8px;
-}
-
-.container .date {
-  position: absolute;
-  display: inline-block;
-  top: calc(50% - 8px);
-  text-align: center;
-  font-size: 14px;
-  font-weight: bold;
-  color: #000000;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  z-index: 1;
-}
-
-.container.left .date {
-  right: -105px;
-}
-
-.container.right .date {
-  left: -105px;
-}
-
-.container .icon {
-  position: absolute;
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  padding: 9px 0;
-  top: calc(50% - 20px);
-  background: #000000;
-  border: 2px solid #000000;
-  border-radius: 40px;
-  text-align: center;
-  font-size: 18px;
-  color: #006E51;
-  z-index: 1;
-}
-
-.container.left .icon {
-  right: 56px;
-}
-
-.container.right .icon {
-  left: 56px;
-}
-
-.container .content {
-  padding: 30px 90px 30px 30px;
-  background: #ffffff;
-  position: relative;
-  border-radius: 0 500px 500px 0;
-}
-
-.container.right .content {
-  padding: 30px 30px 30px 90px;
-  border-radius: 500px 0 0 500px;
-}
-
-.container .content h2 {
-  margin: 0 0 10px 0;
-  font-size: 18px;
-  font-weight: normal;
-  color: #000000;
-}
-
-.container .content p {
-  margin: 0;
-  font-size: 16px;
-  line-height: 22px;
-  color: #403e3e;
-}
-
-@media (max-width: 767.98px) {
-  .timeline::after {
-    left: 90px;
-  }
-
-  .container {
-    width: 100%;
-    padding-left: 120px;
-    padding-right: 30px;
-  }
-
-  .container.right {
-    left: 0%;
-  }
-
-  .container.left::after, 
-  .container.right::after {
-    left: 82px;
-  }
-
-  .container.left::before,
-  .container.right::before {
-    left: 100px;
-    border-color: transparent #006E51 transparent transparent;
-  }
-
-  .container.left .date,
-  .container.right .date {
-    right: auto;
-    left: 15px;
-  }
-
-  .container.left .icon,
-  .container.right .icon {
-    right: auto;
-    left: 146px;
-  }
-
-  .container.left .content,
-  .container.right .content {
-    padding: 30px 30px 30px 90px;
-    border-radius: 500px 0 0 500px;
-  }
-}
-
-
-.design-section .timeline {
-  width: 90%;
-  height: auto;
-  max-width: 900px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden; /* Prevents content from overflowing */
+  margin-top: 4rem; /* Specific margin for projects section */
 }
 
 /* Projects Section new CSS on 1st May 2025 */
-
-#projects {
-  margin-top: 4rem;
-}
-
 .title {
   margin-bottom: 2rem; /* Adds space after the heading */
 }
@@ -812,6 +418,8 @@ body {
   flex-direction: column;
   gap: 2rem;
   background-color: #fafafa;
+  max-width: 900px; /* Example max-width, adjust to fit your design within section padding */
+  margin-inline: auto; /* Centering the wrapper within the section */
 }
 
 .project-box {
@@ -852,9 +460,266 @@ body {
 }
 
 
+/* CONTACT */
+
+#contact {
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 70vh; /* Specific height for contact section */
+}
+
+.contact-info-upper-container {
+  display: flex;
+  justify-content: center;
+  border-radius: 2rem;
+  border: rgb(53, 53, 53) 0.1rem solid;
+  border-color: rgb(163, 163, 163);
+  background: rgb(250, 250, 250);
+  margin: 2rem auto;
+  padding: 0.5rem;
+}
+
+.contact-info-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem;
+}
+
+.contact-info-container p {
+  font-size: larger;
+}
+
+.contact-icon {
+  cursor: default;
+}
+
+.email-icon {
+  height: 2.5rem;
+}
+
+/* FOOTER SECTION */
+
+footer {
+  height: 26vh;
+  margin: 0 auto; /* Centering the footer itself */
+  max-width: var(--container-max-width); /* Align with other sections */
+}
+
+footer p {
+  text-align: center;
+}
+
+#cert { /* This #cert ID seems to be an old container for certifications, now superseded by .certification-container */
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px; /* Adjust the gap between elements if needed */
+}
 
 
-/* ==================================  */
+/* Qualification Section */
+
+#qualification {
+  margin-bottom: 4vh;
+}
+
+.design-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  /* Reduced min-height to allow it to be more compact */
+  min-height: 70vh; /* Adjusted from 100vh to 70vh */
+  padding: 50px 0; /* Reduced padding from 100px to 50px */
+  font-family: 'Jost', sans-serif;
+}
+
+/* New timeline styles start here */
+.timeline {
+  position: relative;
+  width: 100%;
+  max-width: 900px; /* Reduced max-width from 1140px to 900px */
+  margin: 0 auto;
+  padding: 10px 0; /* Reduced vertical padding */
+}
+
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  background: #000000;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -1px;
+}
+
+.container {
+  padding: 10px 20px; /* Reduced padding */
+  position: relative;
+  background: inherit;
+  width: 50%;
+}
+
+.container.left {
+  left: 0;
+}
+
+.container.right {
+  left: 50%;
+}
+
+.container::after {
+  content: '';
+  position: absolute;
+  width: 14px; /* Reduced size */
+  height: 14px; /* Reduced size */
+  top: calc(50% - 7px); /* Adjusted for new size */
+  right: -7px; /* Adjusted for new size */
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 14px; /* Adjusted for new size */
+  z-index: 1;
+}
+
+.container.right::after {
+  left: -7px; /* Adjusted for new size */
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  width: 40px; /* Reduced width */
+  height: 2px;
+  top: calc(50% - 1px);
+  right: 7px; /* Adjusted for new size */
+  background: #000000;
+  z-index: 1;
+}
+
+.container.right::before {
+  left: 7px; /* Adjusted for new size */
+}
+
+.container .date {
+  position: absolute;
+  display: inline-block;
+  top: calc(50% - 7px); /* Adjusted for new size */
+  text-align: center;
+  font-size: 13px; /* Reduced font size */
+  font-weight: bold;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.8px; /* Slightly reduced letter spacing */
+  z-index: 1;
+}
+
+.container.left .date {
+  right: -90px; /* Adjusted position */
+}
+
+.container.right .date {
+  left: -90px; /* Adjusted position */
+}
+
+.container .icon {
+  position: absolute;
+  display: inline-block;
+  width: 30px; /* Reduced size */
+  height: 30px; /* Reduced size */
+  padding: 6px 0; /* Adjusted padding */
+  top: calc(50% - 15px); /* Adjusted for new size */
+  background: #000000;
+  border: 2px solid #000000;
+  border-radius: 30px; /* Adjusted for new size */
+  text-align: center;
+  font-size: 16px; /* Reduced font size */
+  color: #ffffff; /* Changed icon color to white for better contrast with black background */
+  z-index: 1;
+}
+
+.container.left .icon {
+  right: 46px; /* Adjusted position */
+}
+
+.container.right .icon {
+  left: 46px; /* Adjusted position */
+}
+
+.container .content {
+  padding: 20px 70px 20px 20px; /* Reduced padding */
+  background: #ffffff;
+  position: relative;
+  border-radius: 6px;
+  border: 2px solid #333;
+}
+
+.container.right .content {
+  padding: 20px 20px 20px 70px; /* Reduced padding */
+  border-radius: 6px;
+}
+
+.container .content h2 {
+  margin: 0 0 8px 0; /* Reduced margin */
+  font-size: 16px; /* Reduced font size */
+  font-weight: normal;
+  color: #000000;
+}
+
+.container .content p {
+  margin: 0;
+  font-size: 14px; /* Reduced font size */
+  line-height: 20px; /* Reduced line height */
+  color: #403e3e;
+}
+
+@media (max-width: 767.98px) {
+  .timeline::after {
+    left: 70px; /* Adjusted for smaller mobile layout */
+  }
+  .container {
+    width: 100%;
+    padding-left: 90px; /* Adjusted padding */
+    padding-right: 20px; /* Adjusted padding */
+  }
+  .container.right {
+    left: 0%;
+  }
+  .container.left::after,
+  .container.right::after {
+    left: 62px; /* Adjusted for smaller mobile layout */
+  }
+  .container.left::before,
+  .container.right::before {
+    left: 80px; /* Adjusted for smaller mobile layout */
+    border-color: transparent #000000 transparent transparent;
+  }
+  .container.left .date,
+  .container.right .date {
+    right: auto;
+    left: 10px; /* Adjusted position */
+  }
+  .container.left .icon,
+  .container.right .icon {
+    right: auto;
+    left: 110px; /* Adjusted position */
+  }
+  .container.left .content,
+  .container.right .content {
+    padding: 20px 20px 20px 70px; /* Reduced padding */
+    border-radius: 6px;
+  }
+}
+/* End of new timeline styles */
+
+
+/* CERTIFICATIONS SECTION */
 .certification-container {
   border: 2px solid #333; /* match projects-wrapper border thickness & color */
   padding: 2rem; /* same padding as projects-wrapper */
@@ -862,10 +727,13 @@ body {
   flex-direction: column;
   gap: 2rem; /* same gap as projects-wrapper */
   background-color: #fafafa; /* same bg as projects-wrapper */
+  max-width: 900px; /* Example max-width, adjust to fit your design within section padding */
+  margin-inline: auto; /* Centering the wrapper within the section */
 }
 
 .cert-card {
-  border: 1px solid #444; /* match project-box border color */
+  border: 1px solid #444; /* match
+  -box border color */
   padding: 1rem; /* match project-box padding */
   display: flex;
   justify-content: space-between;
@@ -897,10 +765,6 @@ body {
   background-color: #333; /* same hover bg */
   color: #fff; /* same hover text color */
 }
-
-
-
-
 
 .cert-embed {
   width: 150px;
