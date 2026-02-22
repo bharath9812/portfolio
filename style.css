@@ -1456,28 +1456,8 @@ html {
     font-weight: inherit;
 }
 
-/* Splash Screen - Eclipse Effect */
-#splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    pointer-events: none;
-    /* Let clicks pass through after animation */
-}
-
-/* 
-   The Shutter:
-   Uses a massive border to create the "hole" effect.
-   The content inside the border is transparent (the hole).
-   The border itself is the black cover.
-*/
+/* Old Eclipse splash styling removed to prevent conflicts */
+/* The Shutter: Uses a massive border to create the "hole" effect. The content inside the border is transparent (the hole). The border itself is the black cover. */
 .iris-shutter {
     position: absolute;
     top: 50%;

@@ -1,9 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Splash Screen Logic
     const splash = document.getElementById('splash-screen');
-    const hasViewedSplash = sessionStorage.getItem('viewedSplash');
+    const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
+    const lastSplashTime = localStorage.getItem('lastSplashTime');
+    const currentTime = new Date().getTime();
 
-    if (hasViewedSplash) {
+    let shouldShowSplash = true;
+    if (lastSplashTime && (currentTime - parseInt(lastSplashTime, 10)) < TWO_HOURS_MS) {
+        shouldShowSplash = false;
+    }
+
+    if (!shouldShowSplash) {
         if (splash) splash.style.display = 'none';
         document.body.style.overflow = 'auto';
     } else {
@@ -99,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     splash.classList.add('fade-out'); // Triggers clip-path wipe in CSS
 
                     document.body.style.overflow = 'auto';
-                    sessionStorage.setItem('viewedSplash', 'true');
+                    localStorage.setItem('lastSplashTime', currentTime.toString());
 
                     // Remove from DOM
                     setTimeout(() => {
