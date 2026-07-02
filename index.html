@@ -2,398 +2,797 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bharathsimha Reddy | Cloud & DevOps Engineer</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="mediaq.css">
-  <script src="script.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bharathsimha Reddy Mandadhi - Software Engineer</title>
+
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4VG2Q2QGBB"></script>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+    gtag('config', 'G-4VG2Q2QGBB');
+  </script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Config for Custom Colors/Fonts -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            bgDark: '#0a0a0a',
+            bgCard: 'rgba(255, 255, 255, 0.03)',
+            bgCardHover: 'rgba(255, 255, 255, 0.06)',
+            textMain: '#ffffff',
+            textMuted: '#888888',
+            accent: '#ffffff',
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- GSAP for Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- Canvas Effects System -->
+  <script src="canvas-effects.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body>
+<body
+  class="bg-[#f5f5f7] dark:bg-[#0a0a0a] text-[#1d1d1f] dark:text-white font-sans overflow-hidden antialiased selection:bg-black/20 dark:selection:bg-white/20 h-[100dvh] w-screen relative transition-colors duration-500">
 
-  <!-- Orbital Sync Splash Screen -->
-  <div id="splash-screen">
-    <div class="micro-data top-left">SYS.OPT: ONLINE</div>
-    <div class="micro-data top-right">MEM: 64TB</div>
-    <div class="micro-data bottom-left">LOC: 12.0.0.1</div>
-    <div class="micro-data bottom-right">SEC: ENCRYPTED</div>
+  <!-- Canvas Background for floating constellation/particles -->
+  <canvas id="bg-canvas" class="absolute inset-0 pointer-events-none z-0"></canvas>
 
+  <!-- Canvas Effect Selector (Temporary) -->
+  <!-- <div id="canvas-effect-selector"
+    class="fixed top-8 right-8 z-[100] glass-panel px-4 py-2 rounded-full border border-black/10 dark:border-white/10 opacity-0 pointer-events-none transition-all duration-300">
+    <select id="bg-effect-select"
+      class="bg-transparent text-sm text-[#86868b] dark:text-[#888888] font-medium outline-none cursor-pointer">
+      <option value="0">01 - Constellation</option>
+      <option value="1">02 - Warp Speed</option>
+      <option value="2">03 - Digital Rain</option>
+      <option value="3">04 - Cyberpunk Grid</option>
+      <option value="4">05 - Floating Dust</option>
+      <option value="5">06 - Hexagon Grid</option>
+      <option value="6">07 - Particle Vortex</option>
+      <option value="7">08 - Neural Network</option>
+      <option value="8">09 - Audio Visualizer</option>
+      <option value="9">10 - Swarming Boids</option>
+      <option value="10">11 - Topography</option>
+      <option value="11">12 - Quantum Waveform</option>
+      <option value="12">13 - Galactic Spiral</option>
+    </select>
+  </div> -->
 
+  <!-- Navigation Rail (Hidden initially) -->
+  <nav id="nav-rail"
+    class="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-[100] flex items-center justify-center gap-4 md:gap-8 px-5 md:px-8 py-3 bg-black/10 dark:bg-white/10 md:bg-black/5 md:dark:bg-white/5 backdrop-blur-3xl border border-black/10 dark:border-white/10 rounded-full opacity-0 pointer-events-none transition-all duration-300 w-auto max-w-[95vw] overflow-x-auto overflow-y-hidden [&::-webkit-scrollbar]:hidden"
+    style="scrollbar-width: none; -ms-overflow-style: none;">
+    <!-- Theme Toggle -->
+    <button id="theme-toggle"
+      class="text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors md:mr-4 shrink-0"
+      title="Toggle Theme">
+      <i class="ph ph-sun text-xl dark:hidden block"></i>
+      <i class="ph ph-moon text-xl hidden dark:block"></i>
+    </button>
+    <div class="w-[1px] h-6 bg-black/10 dark:bg-white/10 md:mr-4 shrink-0"></div>
+    <button data-target="view-landing"
+      class="nav-btn text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors shrink-0"
+      title="Home">
+      <i class="ph ph-house text-xl"></i>
+    </button>
+    <button data-target="view-about"
+      class="nav-btn text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors shrink-0"
+      title="About Me">
+      <i class="ph ph-user text-xl"></i>
+    </button>
+    <button data-target="view-education"
+      class="nav-btn text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors shrink-0"
+      title="Education">
+      <i class="ph ph-graduation-cap text-xl"></i>
+    </button>
+    <button data-target="view-skills"
+      class="nav-btn text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors shrink-0"
+      title="Skills">
+      <i class="ph ph-code text-xl"></i>
+    </button>
+    <button data-target="view-projects"
+      class="nav-btn text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors shrink-0"
+      title="Projects">
+      <i class="ph ph-kanban text-xl"></i>
+    </button>
+    <button data-target="view-certs"
+      class="nav-btn text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors shrink-0"
+      title="Certifications & Achievements">
+      <i class="ph ph-certificate text-xl"></i>
+    </button>
+    <button data-target="view-contact"
+      class="nav-btn text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors shrink-0"
+      title="Contact">
+      <i class="ph ph-envelope-simple text-xl"></i>
+    </button>
+  </nav>
 
-    <div class="orbital-system">
-      <div class="central-mass"></div>
-      <div class="orbit-path path-1">
-        <div class="planet planet-1"></div>
+  <!-- Bottom Navigation (Desktop Only) -->
+  <nav id="bottom-nav"
+    class="hidden md:flex fixed bottom-8 left-1/2 -translate-x-1/2 z-50 items-center gap-8 px-8 py-3 bg-black/5 dark:bg-white/5 backdrop-blur-2xl border border-black/10 dark:border-white/10 rounded-full opacity-0 pointer-events-none transition-all duration-300">
+    <button id="nav-prev"
+      class="text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors"
+      title="Previous">
+      <i class="ph ph-caret-left text-xl"></i>
+    </button>
+    <div id="nav-separator" class="w-[1px] h-6 bg-black/10 dark:bg-white/10"></div>
+    <button id="nav-next"
+      class="text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors" title="Next">
+      <i class="ph ph-caret-right text-xl"></i>
+    </button>
+  </nav>
+
+  <!-- Main Content Container -->
+  <!-- We enforce 15-20% empty space on L/R by using w-full max-w-[70vw] mx-auto, or px-[15vw] -->
+  <main id="app-container" class="relative w-full h-full z-10 flex items-center justify-center">
+
+    <!-- SPLASH SCREEN -->
+    <section id="view-splash"
+      class="view active-view absolute w-full h-full flex flex-col items-center justify-center bg-transparent z-[100]">
+
+      <!-- Micro Data Overlays -->
+      <div class="absolute top-8 left-8 flex flex-col gap-1">
+        <div class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse">
+          SYS.OPT: ONLINE</div>
+        <div class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">v2.0.26</div>
       </div>
-      <div class="orbit-path path-2">
-        <div class="planet planet-2"></div>
-      </div>
-      <div class="orbit-path path-3">
-        <div class="planet planet-3"></div>
-      </div>
-    </div>
-    <div class="loading-text">INITIALIZING<span class="dots">...</span></div>
-  </div>
-
-  <!-- Header -->
-  <header>
-    <div class="container">
-      <nav>
-        <!-- <div class="logo">Bharath Reddy</div> -->
-        <div class="logo">
-          <a href="#" aria-label="Go to top">Bharath Reddy</a>
+      <div class="absolute top-8 right-8 flex flex-col items-end gap-1">
+        <div class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse"
+          style="animation-delay: 0.5s">MEM: 64TB</div>
+        <div class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">ALLOC: 12%
         </div>
-        <!-- <div class="logo" onclick="scrollToTop()">Bharath Reddy</div> -->
+      </div>
+      <div class="absolute bottom-8 left-8 flex flex-col gap-1">
+        <div class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse"
+          style="animation-delay: 1s">LOC: 12.0.0.1</div>
+        <div class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">SEC:
+          ENCRYPTED</div>
+      </div>
+      <div class="absolute bottom-8 right-8 flex flex-col items-end gap-1">
+        <div class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse"
+          style="animation-delay: 1.5s">NET: UPLINK</div>
+        <div class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">LATENCY: 4ms
+        </div>
+      </div>
 
-        <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#education">Education</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div style="display: flex; align-items: center; gap: 20px;">
-          <div class="theme-toggle" aria-label="Toggle Dark Mode">
-            <!-- Moon Icon -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
+      <!-- Orbital System Ambient Glow -->
+      <div
+        class="absolute w-64 h-64 md:w-[28rem] md:h-[28rem] bg-black/5 dark:bg-white/5 blur-3xl rounded-full pointer-events-none">
+      </div>
+
+      <!-- Orbital System -->
+      <div class="relative w-64 h-64 md:w-96 md:h-96 flex items-center justify-center splash-logo opacity-0">
+        <!-- Central Mass -->
+        <div
+          class="absolute w-8 h-8 md:w-12 md:h-12 bg-black dark:bg-white rounded-full shadow-[0_0_30px_rgba(0,0,0,0.4)] dark:shadow-[0_0_30px_rgba(255,255,255,0.4)] animate-pulse"
+          style="animation-duration: 2s;"></div>
+
+        <!-- Orbit 1 -->
+        <div
+          class="absolute w-24 h-24 md:w-36 md:h-36 border border-black/10 dark:border-white/10 rounded-full animate-spin"
+          style="animation-duration: 4s; animation-timing-function: linear;">
+          <div
+            class="absolute w-2 h-2 md:w-3 md:h-3 bg-black dark:bg-white rounded-full left-1/2 -top-1 md:-top-1.5 -translate-x-1/2 shadow-[0_0_10px_rgba(0,0,0,0.5)] dark:shadow-[0_0_10px_rgba(255,255,255,0.5)]">
           </div>
-          <div class="hamburger">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+        </div>
+
+        <!-- Orbit 2 -->
+        <div
+          class="absolute w-40 h-40 md:w-60 md:h-60 border border-black/10 dark:border-white/10 rounded-full animate-spin"
+          style="animation-duration: 7s; animation-timing-function: linear; animation-direction: reverse;">
+          <div
+            class="absolute w-3 h-3 md:w-4 md:h-4 bg-black dark:bg-white rounded-full left-1/2 -bottom-1.5 md:-bottom-2 -translate-x-1/2 shadow-[0_0_10px_rgba(0,0,0,0.5)] dark:shadow-[0_0_10px_rgba(255,255,255,0.5)]">
           </div>
         </div>
-      </nav>
-    </div>
-  </header>
 
-  <!-- Mobile Nav Overlay -->
-  <div class="mobile-nav-overlay">
-    <div class="mobile-nav-links">
-      <a href="#about">About</a>
-      <a href="#education">Education</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </div>
-
-  <!-- Profile Section -->
-  <section id="profile">
-    <div class="container profile-container">
-      <div class="section__pic-container">
-        <img class="circular-square" src="./assets/pro-pic.jpg" alt="Bharath's profile picture" />
-      </div>
-      <div class="section__text">
-        <p class="section__text__p1">Hello, I'm</p>
-        <h1 class="title">Bharathsimha Reddy<br />Mandadhi</h1>
-        <p class="section__text__p2">Under Graduate</p>
-        <div class="btn-container">
-          <button class="btn btn-color-2" onclick="window.open('./assets/Bharath_2026.pdf')">
-            Download CV
-          </button>
-          <button class="btn btn-color-1" onclick="location.href='#contact'">
-            Contact Info
-          </button>
+        <!-- Orbit 3 (Dashed) -->
+        <div
+          class="absolute w-56 h-56 md:w-80 md:h-80 border border-dashed border-black/20 dark:border-white/20 rounded-full animate-spin"
+          style="animation-duration: 12s; animation-timing-function: linear;">
+          <div
+            class="absolute w-1.5 h-1.5 md:w-2 md:h-2 bg-black dark:bg-white rounded-full top-1/2 -left-1 md:-left-1 -translate-y-1/2 shadow-[0_0_10px_rgba(0,0,0,0.5)] dark:shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+          </div>
         </div>
-        <!-- <div id="socials-container">
-          <img src="./assets/linkedin.png" alt="My LinkedIn profile" class="icon"
-            onclick="location.href='https://www.linkedin.com/in/bharath-reddy-mandadhi/'" />
-          <img src="./assets/github.png" alt="My Github profile" class="icon"
-            onclick="location.href='https://github.com/bharath9812'" />
-        </div> -->
       </div>
-    </div>
-  </section>
 
-  <!-- About Section -->
-  <section id="about" class="hidden">
-    <div class="container">
-      <p class="subtitle">Get To Know More</p>
-      <h2 class="section-title">About Me</h2>
-      <div class="about-grid">
-        <div class="about-pic-container">
-          <img src="./assets/pro-pic-2.jpg" alt="Profile Logic" class="about-pic">
+      <!-- Loading Text -->
+      <div class="splash-progress mt-16 md:mt-24 flex flex-col items-center opacity-0 relative z-10">
+        <div
+          class="text-xs md:text-sm font-bold md:font-semibold tracking-[0.4em] text-black/70 dark:text-white/50 mb-5 font-mono">
+          INITIALIZING</div>
+        <div class="w-48 md:w-64 h-[2px] bg-black/10 dark:bg-white/10 rounded-full overflow-hidden relative">
+          <div
+            class="splash-bar h-full bg-black dark:bg-white w-0 shadow-[0_0_10px_rgba(0,0,0,0.5)] dark:shadow-[0_0_10px_rgba(255,255,255,0.5)] relative z-10">
+          </div>
         </div>
-        <div class="about-text">
-          <p>
-            I am an AWS Certified Cloud Practitioner and Computer Science graduate (9.01 CGPA) with hands-on project
-            experience in architecting scalable cloud infrastructure.
+      </div>
+    </section>
+
+    <!-- LANDING PAGE -->
+    <section id="view-landing"
+      class="view absolute w-full h-full hidden flex flex-col items-center justify-start md:justify-center px-6 md:px-[15vw] pt-[15dvh] md:pt-0 overflow-hidden">
+      <div class="flex flex-col items-center text-center max-w-2xl w-full">
+        <div
+          class="landing-avatar opacity-0 relative mb-6 md:mb-16 flex items-center justify-center group w-[min(270px,38vh)] h-[min(270px,38vh)] md:w-[min(320px,35vh)] md:h-[min(320px,35vh)] mx-auto">
+
+
+          <!-- Subtle Rotating Orbital Rings -->
+          <div
+            class="absolute inset-[-15px] md:inset-[-25px] border border-black/10 dark:border-white/10 rounded-full animate-[spin_10s_linear_infinite] z-0">
+            <!-- Orbit dot -->
+            <div
+              class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-black/30 dark:bg-white/30 rounded-full">
+            </div>
+          </div>
+          <div
+            class="absolute inset-[-30px] md:inset-[-50px] border border-black/5 dark:border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse] z-0">
+            <!-- Orbit dot -->
+            <div
+              class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-black/20 dark:bg-white/20 rounded-full">
+            </div>
+          </div>
+
+          <!-- Profile Picture Container -->
+          <div
+            class="w-full h-full rounded-full overflow-hidden glass-panel relative z-10 shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[0_0_40px_rgba(255,255,255,0.05)] border-[4px] border-white/50 dark:border-[#1a1a1a]/50">
+            <img src="../assets/pro-pic.jpg" alt="Bharathsimha Reddy"
+              class="w-full h-full object-cover rounded-full grayscale hover:grayscale-0 transition-all duration-700 scale-105 hover:scale-110" />
+          </div>
+        </div>
+        <h1
+          class="landing-title text-4xl md:text-5xl font-light tracking-tight mb-4 opacity-0 text-balance px-4 md:px-0">
+          Bharathsimha Reddy Mandadhi</h1>
+        <h2
+          class="landing-subtitle text-sm md:text-base text-[#86868b] dark:text-[#888888] font-medium opacity-0 mb-8 tracking-[0.2em] uppercase text-balance flex items-center justify-center gap-2">
+          Full Stack Engineer <span class="text-black/30 dark:text-white/30 text-xs">✦</span> Cloud Infrastructure
+        </h2>
+        <div class="landing-actions opacity-0 flex flex-wrap justify-center gap-4 md:gap-6">
+          <button class="nav-trigger glass-button text-sm md:text-base" data-target="view-about">Explore
+            Profile</button>
+          <a href="https://drive.google.com/uc?export=download&id=1MmukvSuVErb_CaD8ZD-WR2GwnhCDROF7" target="_blank" download
+            onclick="gtag('event', 'download', { 'event_category': 'Resume', 'event_label': 'Google Drive CV' });"
+            class="glass-button bg-black text-white dark:bg-white dark:text-[#0a0a0a] font-medium border-none hover:bg-black/80 dark:hover:bg-white/90 text-sm md:text-base">Download
+            CV</a>
+          <div class="flex gap-4">
+            <a href="https://github.com/bharath9812" target="_blank" class="icon-button"><i
+                class="ph ph-github-logo"></i></a>
+            <a href="https://www.linkedin.com/in/bharath-reddy-mandadhi" target="_blank" class="icon-button"><i
+                class="ph ph-linkedin-logo"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT ME -->
+    <section id="view-about"
+      class="view absolute w-full h-full hidden flex flex-col items-center justify-start md:justify-center px-6 md:px-[15vw] pt-[15dvh] md:pt-0 overflow-hidden">
+      <div class="flex flex-col md:grid md:grid-cols-2 gap-4 md:gap-16 items-center w-full max-w-5xl">
+        <!-- Mobile Only Label -->
+        <div
+          class="md:hidden flex items-center justify-center gap-3 text-[#86868b] dark:text-[#888888] uppercase tracking-widest text-xs mb-[-1rem] opacity-0 order-first z-10 w-full">
+          <i class="ph ph-user"></i> About Me
+        </div>
+
+        <div
+          class="about-visual opacity-0 flex justify-center items-center w-[min(270px,38vh)] h-[min(270px,38vh)] md:w-full md:h-auto md:max-w-lg mx-auto order-first md:order-last mb-6 md:mb-0">
+          <img src="../assets/profile-pic-2_White.png" alt="Bharathsimha Reddy"
+            class="w-full object-contain transition-all duration-500 block dark:hidden" />
+          <img src="../assets/profile-pic-2_Black.png" alt="Bharathsimha Reddy"
+            class="w-full object-contain transition-all duration-500 hidden dark:block" />
+        </div>
+        <div class="about-content flex flex-col gap-2 md:gap-6 text-center md:text-left opacity-0">
+          <div
+            class="hidden md:flex items-center justify-start gap-3 text-[#86868b] dark:text-[#888888] uppercase tracking-widest text-sm mb-2">
+            <i class="ph ph-user"></i> About Me
+          </div>
+          <h2 class="text-xl md:text-3xl font-light leading-tight text-balance">
+            <span class="md:hidden">Crafting seamless full stack experiences.</span>
+            <span class="hidden md:inline">Crafting seamless full stack experiences from intuitive interfaces to robust
+              backends.</span>
+          </h2>
+          <!-- Desktop Text -->
+          <p class="text-[#86868b] dark:text-[#888888] leading-relaxed font-light text-sm md:text-base hidden md:block">
+            I am a Full Stack Software Engineer passionate about crafting seamless web applications from intuitive
+            interfaces to scalable backends. I specialize in building robust, end-to-end solutions using Node.js,
+            Python, and PostgreSQL.
           </p>
-          <p>
-            Proficient in deploying applications using AWS (EC2, RDS, VPC), containerizing services with Docker, and
-            automating workflows via CI/CD.
+          <p class="text-[#86868b] dark:text-[#888888] leading-relaxed font-light text-sm md:text-base hidden md:block">
+            Beyond writing clean code, my practical expertise in AWS, Docker, and CI/CD automation empowers me to
+            architect, deploy, and take complete ownership of products across their entire lifecycle.
           </p>
-          <p>
-            Eager to launch a career as a Cloud Engineer, bringing strong problem-solving skills, adaptability, and a
-            commitment to continuous learning in emerging tech trends.
+          <!-- Mobile Text (Extremely short) -->
+          <p class="text-[#86868b] dark:text-[#888888] leading-relaxed font-light text-[13px] md:hidden px-4">
+            Full Stack Software Engineer building robust solutions with Node.js, Python, & PostgreSQL. Experienced in
+            AWS, Docker, and CI/CD to architect & deploy scalable products.
           </p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Education Section -->
-  <section id="education" class="hidden">
-    <div class="container">
-      <p class="subtitle">My Academic Journey</p>
-      <h2 class="section-title">Education</h2>
-      <div class="timeline">
+    <!-- EDUCATION -->
+    <section id="view-education"
+      class="view absolute w-full h-full hidden flex flex-col items-center justify-center px-6 md:px-[10vw] pt-12 md:pt-0 pb-20 md:pb-0 overflow-hidden">
+      <div class="flex flex-col w-full max-w-6xl my-auto">
+        <div
+          class="edu-header opacity-0 flex items-center gap-3 text-[#86868b] dark:text-[#888888] uppercase tracking-widest text-xs md:text-sm mb-6 md:mb-12 justify-center">
+          <i class="ph ph-graduation-cap"></i> Academic Background
+        </div>
 
-        <!-- B.Tech -->
-        <div class="timeline-item left">
-          <div class="timeline-content">
-            <h3>Bachelor of Technology</h3>
-            <span>2020 – 2024 | VIT-AP University, Amaravati</span>
-            <p>Computer Science and Engineering with Specialization in Artificial Intelligence.</p>
-            <p><strong>Final Grade:</strong> 9.01 CGPA</p>
+        <div
+          class="edu-timeline opacity-0 relative flex flex-col md:flex-row items-start md:items-stretch justify-between gap-4 md:gap-6 mt-4 md:mt-8 w-full">
+          <!-- Background Line -->
+          <!-- Desktop horizontal line -->
+          <div
+            class="hidden md:block absolute top-[22px] left-[16.666%] w-[66.666%] h-[4px] bg-black/5 dark:bg-white/5 rounded-full z-0 overflow-hidden">
+            <!-- Progress indicator -->
+            <div class="h-full bg-black dark:bg-white w-[100%] rounded-full opacity-30"></div>
+          </div>
+          <!-- Mobile vertical line -->
+          <div
+            class="md:hidden absolute top-[16px] bottom-[16px] left-[20px] w-[2px] bg-black/5 dark:bg-white/5 rounded-full z-0 overflow-hidden">
+            <div class="w-full bg-black dark:bg-white h-[100%] opacity-30"></div>
+          </div>
+
+          <!-- Card 1: B.Tech -->
+          <div class="relative flex-1 w-full flex flex-col gap-2 md:gap-4 pl-12 md:pl-0">
+            <!-- Node Dot -->
+            <div
+              class="absolute top-0 left-[6px] md:static md:mx-auto md:mb-6 w-8 h-8 md:w-12 md:h-12 bg-[#f5f5f7] dark:bg-[#0a0a0a] border-[3px] md:border-[4px] border-black/10 dark:border-white/10 rounded-full flex items-center justify-center z-10 shadow-sm transition-transform hover:scale-110">
+              <div class="w-2 h-2 md:w-4 md:h-4 bg-black dark:bg-white rounded-full"></div>
+            </div>
+
+            <div
+              class="glass-panel flex-1 rounded-2xl md:rounded-3xl p-4 md:p-8 flex flex-col border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1">
+              <div class="text-xs text-[#86868b] dark:text-[#888888] tracking-widest uppercase mb-2">08/2020 – 05/2024
+              </div>
+              <h3 class="text-xl font-medium mb-1">B.Tech Computer Science & Eng.</h3>
+              <div class="text-sm text-[#86868b] dark:text-[#888888] font-light">VIT-AP University</div>
+              <div class="mt-auto pt-4 border-t border-black/5 dark:border-white/5">
+                <div class="text-sm font-medium"><span class="text-[#86868b] dark:text-[#888888]">Grade:</span> 9.01
+                  CGPA</div>
+                <div class="text-xs text-[#86868b] dark:text-[#888888] mt-1">Specialization in Artificial Intelligence.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: XII -->
+          <div class="relative flex-1 w-full flex flex-col gap-2 md:gap-4 pl-12 md:pl-0">
+            <!-- Node Dot -->
+            <div
+              class="absolute top-0 left-[6px] md:static md:mx-auto md:mb-6 w-8 h-8 md:w-12 md:h-12 bg-[#f5f5f7] dark:bg-[#0a0a0a] border-[3px] md:border-[4px] border-black/10 dark:border-white/10 rounded-full flex items-center justify-center z-10 shadow-sm transition-transform hover:scale-110">
+              <div class="w-2 h-2 md:w-4 md:h-4 bg-black/50 dark:bg-white/50 rounded-full"></div>
+            </div>
+
+            <div
+              class="glass-panel flex-1 rounded-2xl md:rounded-3xl p-4 md:p-8 flex flex-col border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1">
+              <div class="text-xs text-[#86868b] dark:text-[#888888] tracking-widest uppercase mb-2">06/2018 – 03/2020
+              </div>
+              <h3 class="text-xl font-medium mb-1">Class XII - Senior Secondary</h3>
+              <div class="text-sm text-[#86868b] dark:text-[#888888] font-light">Narayana Junior College</div>
+              <div class="mt-auto pt-4 border-t border-black/5 dark:border-white/5">
+                <div class="text-sm font-medium"><span class="text-[#86868b] dark:text-[#888888]">Grade:</span> 982 /
+                  1000</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: X -->
+          <div class="relative flex-1 w-full flex flex-col gap-2 md:gap-4 pl-12 md:pl-0">
+            <!-- Node Dot -->
+            <div
+              class="absolute top-0 left-[6px] md:static md:mx-auto md:mb-6 w-8 h-8 md:w-12 md:h-12 bg-[#f5f5f7] dark:bg-[#0a0a0a] border-[3px] md:border-[4px] border-black/10 dark:border-white/10 rounded-full flex items-center justify-center z-10 shadow-sm transition-transform hover:scale-110">
+              <div class="w-2 h-2 md:w-4 md:h-4 bg-black/30 dark:bg-white/30 rounded-full"></div>
+            </div>
+
+            <div
+              class="glass-panel flex-1 rounded-2xl md:rounded-3xl p-4 md:p-8 flex flex-col border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1">
+              <div class="text-xs text-[#86868b] dark:text-[#888888] tracking-widest uppercase mb-2">06/2017 – 03/2018
+              </div>
+              <h3 class="text-xl font-medium mb-1">Class X - Secondary</h3>
+              <div class="text-sm text-[#86868b] dark:text-[#888888] font-light">Keshava Reddy EM High School</div>
+              <div class="mt-auto pt-4 border-t border-black/5 dark:border-white/5">
+                <div class="text-sm font-medium"><span class="text-[#86868b] dark:text-[#888888]">Grade:</span> 9.5 CGPA
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- 12th -->
-        <div class="timeline-item right">
-          <div class="timeline-content">
-            <h3>Class XII - Senior Secondary</h3>
-            <span>2018 – 2020 | Narayana Junior College</span>
-            <p><strong>Score:</strong> 982 / 1000</p>
+        <!-- <div class="edu-courses opacity-0 mt-12 text-center">
+          <div class="text-xs text-[#86868b] dark:text-[#888888] tracking-widest uppercase mb-4">Core Coursework</div>
+          <div class="flex flex-wrap justify-center gap-3">
+            <span
+              class="px-4 py-2 rounded-full border border-black/10 dark:border-white/10 text-xs text-black/80 dark:text-white/80">Data
+              Structures & Algorithms</span>
+            <span
+              class="px-4 py-2 rounded-full border border-black/10 dark:border-white/10 text-xs text-black/80 dark:text-white/80">Object
+              Oriented Programming</span>
+            <span
+              class="px-4 py-2 rounded-full border border-black/10 dark:border-white/10 text-xs text-black/80 dark:text-white/80">Operating
+              Systems</span>
+            <span
+              class="px-4 py-2 rounded-full border border-black/10 dark:border-white/10 text-xs text-black/80 dark:text-white/80">Computer
+              Networks</span>
+            <span
+              class="px-4 py-2 rounded-full border border-black/10 dark:border-white/10 text-xs text-black/80 dark:text-white/80">DBMS</span>
+            <span
+              class="px-4 py-2 rounded-full border border-black/10 dark:border-white/10 text-xs text-black/80 dark:text-white/80">System
+              Architecture</span>
+          </div> -->
+      </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="view-skills"
+      class="view absolute w-full h-full hidden flex flex-col items-center justify-center px-6 md:px-[15vw] pt-12 md:pt-0 pb-20 md:pb-0 overflow-hidden">
+      <div class="w-full max-w-5xl my-auto">
+        <div
+          class="skills-header opacity-0 flex items-center gap-3 text-[#86868b] dark:text-[#888888] uppercase tracking-widest text-xs md:text-sm mb-4 md:mb-12 justify-center">
+          <i class="ph ph-code"></i> Technical Arsenal
+        </div>
+
+        <!-- Horizontal Scroll Container -->
+        <div class="relative w-full group">
+          <!-- Scroll Indicators -->
+          <div
+            class="absolute top-0 bottom-0 left-[-10px] md:left-[-20px] w-12 md:w-24 bg-gradient-to-r from-[#f5f5f7] dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none opacity-0 transition-opacity duration-300"
+            id="skills-scroll-left-indicator"></div>
+          <div
+            class="absolute top-0 bottom-0 right-[-10px] md:right-[-20px] w-12 md:w-24 bg-gradient-to-l from-[#f5f5f7] dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none animate-[pulse_2s_ease-in-out_infinite]"
+            id="skills-scroll-right-indicator"></div>
+
+          <div id="skills-scroll"
+            class="flex overflow-x-auto gap-4 md:gap-6 snap-x snap-mandatory pb-8 pt-4 px-2 -mx-2 [&::-webkit-scrollbar]:hidden items-stretch"
+            style="scrollbar-width: none;">
+
+            <!-- Category 1 -->
+            <div
+              class="skills-card shrink-0 w-[85vw] md:w-[400px] snap-center opacity-0 glass-panel rounded-2xl md:rounded-3xl p-6 md:p-8 flex flex-col">
+              <div class="flex items-center gap-3 mb-6">
+                <i class="ph ph-terminal text-2xl text-black/70 dark:text-white/70"></i>
+                <h3 class="text-lg font-medium">Programming & DBs</h3>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span class="skill-pill">Java</span>
+                <span class="skill-pill">Python</span>
+                <span class="skill-pill">JavaScript</span>
+                <span class="skill-pill">Node.js</span>
+                <span class="skill-pill">SQL</span>
+                <span class="skill-pill">PostgreSQL</span>
+                <span class="skill-pill">MongoDB</span>
+                <span class="skill-pill">Supabase</span>
+              </div>
+            </div>
+
+            <!-- Category 2 -->
+            <div
+              class="skills-card shrink-0 w-[85vw] md:w-[400px] snap-center opacity-0 glass-panel rounded-2xl md:rounded-3xl p-6 md:p-8 flex flex-col">
+              <div class="flex items-center gap-3 mb-6">
+                <i class="ph ph-cloud-network text-2xl text-black/70 dark:text-white/70"></i>
+                <h3 class="text-lg font-medium">Infrastructure & Cloud</h3>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span class="skill-pill">Linux Admin</span>
+                <span class="skill-pill">Docker</span>
+                <span class="skill-pill">Kubernetes</span>
+                <span class="skill-pill">AWS (EC2, RDS, S3)</span>
+                <span class="skill-pill">CI/CD</span>
+                <span class="skill-pill">Terraform</span>
+              </div>
+            </div>
+
+            <!-- Category 3 -->
+            <div
+              class="skills-card shrink-0 w-[85vw] md:w-[400px] snap-center opacity-0 glass-panel rounded-2xl md:rounded-3xl p-6 md:p-8 flex flex-col">
+              <div class="flex items-center gap-3 mb-6">
+                <i class="ph ph-cpu text-2xl text-black/70 dark:text-white/70"></i>
+                <h3 class="text-lg font-medium">Systems & Networking</h3>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span class="skill-pill">Debian Linux</span>
+                <span class="skill-pill">Server Management</span>
+                <span class="skill-pill">Storage Management</span>
+                <span class="skill-pill">HTTP/HTTPS</span>
+                <span class="skill-pill">DNS</span>
+                <span class="skill-pill">TCP/IP</span>
+                <span class="skill-pill">SMB File Sharing</span>
+                <span class="skill-pill">Troubleshooting</span>
+                <span class="skill-pill">GitHub Actions</span>
+                <span class="skill-pill">Docker Compose</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        <!-- 10th -->
-        <div class="timeline-item left">
-          <div class="timeline-content">
-            <h3>Class X - Secondary School</h3>
-            <span>2017 – 2018 | Keshava Reddy EM High School</span>
-            <p><strong>CGPA:</strong> 9.5</p>
+        <!-- Custom Horizontal Scrollbar -->
+        <div
+          class="w-48 md:w-64 mx-auto h-[3px] bg-black/5 dark:bg-white/5 rounded-full mt-4 md:mt-8 relative overflow-hidden">
+          <div id="skills-scroll-thumb"
+            class="absolute top-0 left-0 h-full bg-black/30 dark:bg-white/30 rounded-full transition-all duration-75 ease-out"
+            style="width: 33%;"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROJECTS LIST -->
+    <section id="view-projects"
+      class="view absolute w-full h-full hidden flex flex-col items-center justify-center px-6 md:px-[10vw] pt-12 md:pt-0 pb-20 md:pb-0 overflow-hidden">
+      <div class="w-full max-w-6xl my-auto">
+        <div class="projects-header opacity-0 flex items-center justify-between mb-4 md:mb-12 w-full px-2">
+          <div class="flex items-center gap-3 text-[#86868b] dark:text-[#888888] uppercase tracking-widest text-sm">
+            <i class="ph ph-kanban"></i> <span class="hidden md:inline">Engineering</span> Projects
+          </div>
+          <a href="https://github.com/bharath9812" target="_blank" rel="noopener noreferrer"
+            class="flex items-center gap-2 px-4 py-2 rounded-full border border-black/10 dark:border-white/10 hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white text-xs tracking-wider uppercase font-medium group">
+            <i class="ph ph-github-logo text-lg group-hover:scale-110 transition-transform"></i>
+            <span class="hidden md:inline">View GitHub</span>
+            <span class="md:hidden">GitHub</span>
+          </a>
+        </div>
+
+        <!-- Horizontal Scroll Container with Indicators -->
+        <div class="relative w-full group">
+          <!-- Scroll Indicators -->
+          <div
+            class="absolute top-0 bottom-0 left-[-10px] md:left-[-20px] w-12 md:w-24 bg-gradient-to-r from-[#f5f5f7] dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none opacity-0 transition-opacity duration-300"
+            id="scroll-left-indicator"></div>
+          <div
+            class="absolute top-0 bottom-0 right-[-10px] md:right-[-20px] w-12 md:w-24 bg-gradient-to-l from-[#f5f5f7] dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none animate-[pulse_2s_ease-in-out_infinite]"
+            id="scroll-right-indicator"></div>
+
+          <div id="projects-scroll"
+            class="flex overflow-x-auto gap-6 snap-x snap-mandatory pb-8 pt-4 px-2 -mx-2 [&::-webkit-scrollbar]:hidden items-stretch"
+            style="scrollbar-width: none;">
+
+            <!-- Project 1 -->
+            <div
+              class="project-card shrink-0 w-[85vw] md:w-[350px] snap-center opacity-0 glass-panel rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1 group"
+              data-project="1">
+              <div
+                class="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <i class="ph ph-hard-drives text-xl"></i>
+              </div>
+              <h3 class="text-xl font-medium mb-3">Self-Hosted Infrastructure</h3>
+              <p class="text-sm text-[#86868b] dark:text-[#888888] font-light flex-grow">Debian Linux platform running
+                containerized services using Docker Compose with automated management.</p>
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Linux</span>
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Docker</span>
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">K8s</span>
+              </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div
+              class="project-card shrink-0 w-[85vw] md:w-[350px] snap-center opacity-0 glass-panel rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1 group"
+              data-project="2">
+              <div
+                class="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <i class="ph ph-cloud-arrow-up text-xl"></i>
+              </div>
+              <h3 class="text-xl font-medium mb-3">Scalable Cloud & CI/CD</h3>
+              <p class="text-sm text-[#86868b] dark:text-[#888888] font-light flex-grow">AWS-based scalable
+                infrastructure
+                with secure VPC, ALB, and automated GitHub Actions workflows.</p>
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">AWS</span>
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">CI/CD</span>
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">PostgreSQL</span>
+              </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div
+              class="project-card shrink-0 w-[85vw] md:w-[350px] snap-center opacity-0 glass-panel rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1 group"
+              data-project="3">
+              <div
+                class="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <i class="ph ph-layout text-xl"></i>
+              </div>
+              <h3 class="text-xl font-medium mb-3">DairyFlow Platform</h3>
+              <p class="text-sm text-[#86868b] dark:text-[#888888] font-light flex-grow">Full stack management platform
+                with role-based access, REST APIs, and centralized workflows.</p>
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Node.js</span>
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Supabase</span>
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Amplify</span>
+              </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div
+              class="project-card shrink-0 w-[85vw] md:w-[350px] snap-center opacity-0 glass-panel rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1 group"
+              data-project="4">
+              <div
+                class="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <i class="ph ph-image text-xl"></i>
+              </div>
+              <h3 class="text-xl font-medium mb-3">Image Fusion System</h3>
+              <p class="text-sm text-[#86868b] dark:text-[#888888] font-light flex-grow">GUI-based Python app using DWT
+                and CNNs to integrate complementary CT/MRI anatomical and functional data.</p>
+              <div class="mt-6 flex flex-wrap gap-2">
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Python</span>
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">CNN</span>
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">GUI</span>
+              </div>
+            </div>
+
           </div>
         </div>
 
+        <!-- Custom Horizontal Scrollbar -->
+        <div class="w-48 md:w-64 mx-auto h-[3px] bg-black/5 dark:bg-white/5 rounded-full mt-8 relative overflow-hidden">
+          <div id="projects-scroll-thumb"
+            class="absolute top-0 left-0 h-full bg-black/30 dark:bg-white/30 rounded-full transition-all duration-75 ease-out"
+            style="width: 25%;"></div>
+        </div>
+
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Projects Section -->
-  <section id="projects" class="hidden">
-    <div class="container">
-      <p class="subtitle">Browse My Recent</p>
-      <h2 class="section-title">Projects</h2>
-      <div class="projects-grid">
+    <!-- PROJECT DETAIL VIEW -->
+    <section id="view-project-detail"
+      class="view absolute w-full h-full hidden flex flex-col items-center justify-center px-4 md:px-[15vw] pt-8 md:pt-0 pb-20 md:pb-0 overflow-hidden">
+      <div
+        class="w-full max-w-4xl glass-panel rounded-3xl md:rounded-[3rem] p-4 pt-16 md:p-12 relative flex flex-col max-h-[80dvh] md:max-h-none my-auto">
+        <button id="btn-back-projects"
+          class="absolute top-4 left-4 md:top-8 md:left-8 w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center hover:bg-black/10 dark:hover:bg-white/20 transition-colors z-20">
+          <i class="ph ph-arrow-left"></i>
+        </button>
 
-        <!-- Project 1 -->
-        <div class="project-card">
-          <h3>Scalable AWS Web App Architecture</h3>
-          <p>Architected a high-availability cloud env using AWS EC2, RDS PostgreSQL, Auto Scaling, and ALBs.
-            Implemented CI/CD with GitHub Actions.</p>
-          <button class="btn" onclick="location.href='https://github.com/bharath9812'">Github</button>
+        <div id="project-detail-content"
+          class="opacity-0 translate-y-4 overflow-y-auto md:overflow-visible pr-2 md:pr-0 md:pt-8"
+          style="scrollbar-width: thin;">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS & ACHIEVEMENTS -->
+    <section id="view-certs"
+      class="view absolute w-full h-full hidden flex flex-col items-center justify-center px-6 md:px-[15vw] pt-12 md:pt-0 pb-20 md:pb-0 overflow-hidden">
+      <div class="w-full max-w-4xl my-auto">
+        <div
+          class="certs-header opacity-0 flex items-center gap-3 text-[#86868b] dark:text-[#888888] uppercase tracking-widest text-xs md:text-sm mb-6 md:mb-12 justify-center">
+          <i class="ph ph-certificate"></i> Recognition
         </div>
 
-        <!-- Project 2 -->
-        <div class="project-card">
-          <h3>Image Fusion System</h3>
-          <p>Python-based GUI system to fuse MRI and CT scan images using CNNs, DWT, and Laplacian Pyramids for superior
-            diagnostic images.</p>
-          <button class="btn" onclick="location.href='https://github.com/bharath9812/Image-Fusion'">Github</button>
-        </div>
+        <div class="flex flex-col gap-3 md:gap-6">
 
-        <!-- Project 3 -->
-        <div class="project-card">
-          <h3>Driver Drowsiness Detection</h3>
-          <p>Real-time system using OpenCV and CNN to detect drowsy drivers. Recognized as top 10 project at VIT-AP
-            Engineering Clinics Expo.</p>
-          <button class="btn"
-            onclick="location.href='https://github.com/bharath9812/Driver-Drowsiness-Detection_DDD'">Github</button>
-        </div>
+          <div
+            class="cert-item opacity-0 glass-panel rounded-2xl md:rounded-3xl p-4 md:p-6 flex items-center gap-4 md:gap-6">
+            <div
+              class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center shrink-0">
+              <i class="ph ph-amazon-logo text-xl md:text-2xl"></i>
+            </div>
+            <div>
+              <div class="text-[10px] md:text-xs text-[#86868b] dark:text-[#888888] tracking-widest uppercase mb-1">
+                Certification</div>
+              <h3 class="text-base md:text-lg font-medium">AWS Certified Cloud Practitioner</h3>
+            </div>
+          </div>
 
-        <!-- Project 4 (Old) -->
-        <div class="project-card">
-          <h3>Yelp Camp</h3>
-          <p>Full-stack app for campground listings with reviews, auth, and MongoDB. Deployed on Render.</p>
-          <div style="display: flex; gap: 10px;">
-            <button class="btn" onclick="location.href='https://github.com/bharath9812/yelp'">Github</button>
-            <button class="btn" onclick="location.href='https://yelpcamp-india-vric.onrender.com/'">Demo</button>
+          <div
+            class="cert-item opacity-0 glass-panel rounded-2xl md:rounded-3xl p-4 md:p-6 flex items-center gap-4 md:gap-6">
+            <div
+              class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center shrink-0">
+              <i class="ph ph-brain text-xl md:text-2xl"></i>
+            </div>
+            <div>
+              <div class="text-[10px] md:text-xs text-[#86868b] dark:text-[#888888] tracking-widest uppercase mb-1">
+                Certification</div>
+              <h3 class="text-base md:text-lg font-medium leading-tight">NVIDIA Deep Learning Institute – Fundamentals
+                of Deep Learning</h3>
+            </div>
+          </div>
+
+          <div
+            class="cert-item opacity-0 glass-panel rounded-2xl md:rounded-3xl p-4 md:p-6 flex items-center gap-4 md:gap-6">
+            <div
+              class="w-12 h-12 md:w-16 md:h-16 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center shrink-0">
+              <i class="ph ph-trophy text-xl md:text-2xl"></i>
+            </div>
+            <div>
+              <div class="text-xs text-[#86868b] dark:text-[#888888] tracking-widest uppercase mb-1">Achievement</div>
+              <h3 class="text-lg font-medium">Top Project Recognition</h3>
+              <p class="text-sm text-[#86868b] dark:text-[#888888] font-light mt-1">Driver Drowsiness Detection project
+                recognized among top projects at VIT-AP Engineering Clinics Expo.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="view-contact"
+      class="view absolute w-full h-full hidden flex flex-col items-center justify-center px-6 md:px-[15vw] pt-0 pb-16 md:pb-0 overflow-hidden">
+      <div class="w-full max-w-2xl text-center my-auto">
+        <div
+          class="contact-header opacity-0 flex items-center gap-3 text-[#86868b] dark:text-[#888888] uppercase tracking-widest text-xs md:text-sm mb-4 md:mb-8 justify-center">
+          <i class="ph ph-envelope-simple"></i> Connect
+        </div>
+        <!-- <h2 class="contact-title opacity-0 text-3xl md:text-4xl font-light mb-12 text-balance">Let's build something scalable.</h2> -->
+
+        <div class="contact-links opacity-0 contact-icons-wrapper mx-auto mt-12 mb-8 md:mb-0">
+          <!-- Static Center Knob -->
+          <a href="tel:+917671968323" class="dial-center text-[#86868b] dark:text-[#888888]" aria-label="Call">
+            <svg viewBox="0 0 24 24" width="40" height="40">
+              <path
+                d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.49-5.15-3.8-6.62-6.63l1.97-1.57c.23-.24.31-.56.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19c-.56 0-.99.45-.99.99 0 8.84 7.16 16 16 16 .54 0 .99-.45.99-.99v-3.81c0-.55-.45-1.02-1.02-1.02z">
+              </path>
+            </svg>
+          </a>
+          <!-- Rotating Ring -->
+          <div class="dial-ring">
+            <a href="mailto:bharathreddy.mandadhi@gmail.com" class="contact-icon-box" title="Email"><i
+                class="ph ph-envelope-simple text-2xl"></i></a>
+            <a href="https://www.linkedin.com/in/bharath-reddy-mandadhi" target="_blank" class="contact-icon-box"
+              title="LinkedIn"><i class="ph ph-linkedin-logo text-2xl"></i></a>
+            <a href="https://wa.me/917671968323" target="_blank" class="contact-icon-box" title="WhatsApp"><i
+                class="ph ph-whatsapp-logo text-2xl"></i></a>
+            <a href="https://github.com/bharath9812" target="_blank" class="contact-icon-box" title="GitHub"><i
+                class="ph ph-github-logo text-2xl"></i></a>
+            <a href="https://twitter.com/capt_price85" target="_blank" class="contact-icon-box" title="Twitter"><i
+                class="ph ph-twitter-logo text-2xl"></i></a>
+            <a href="https://instagram.com/m.bharathreddy0" target="_blank" class="contact-icon-box"
+              title="Instagram"><i class="ph ph-instagram-logo text-2xl"></i></a>
           </div>
         </div>
-
-        <!-- Project 5 (Old) -->
-        <div class="project-card">
-          <h3>News Whiz</h3>
-          <p>Native Android app delivering news by category using News API with search and dark mode.</p>
-          <div style="display: flex; gap: 10px;">
-            <button class="btn" onclick="location.href='https://github.com/bharath9812/News-Whiz'">Github</button>
-            <button class="btn"
-              onclick="location.href='https://drive.google.com/file/d/1U4-5RmE0adpKsE2Zzr_8J9qtUjbSV8Gq/view'">Install</button>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Skills Section -->
-  <section id="skills" class="hidden">
-    <div class="container">
-      <p class="subtitle">My Technical Expertise</p>
-      <h2 class="section-title">Skills</h2>
-      <div class="skills-grid">
+  </main>
 
-        <!-- Cloud & DevOps -->
-        <div class="skill-card">
-          <h3>Cloud & DevOps</h3>
-          <p>AWS (EC2, RDS, S3, VPC, IAM, CloudWatch, ALB, Auto Scaling), Docker, CI/CD, Terraform</p>
-        </div>
-
-        <!-- Machine Learning & AI -->
-        <div class="skill-card">
-          <h3>Machine Learning & AI</h3>
-          <p>Python (NumPy, Pandas, Scikit-Learn), Deep Learning (CNNs), Computer Vision, Image Processing, Model
-            Evaluation</p>
-        </div>
-
-        <!-- Web Development -->
-        <div class="skill-card">
-          <h3>Web Development</h3>
-          <p>Javascript, Node.js, Express.js, MongoDB (Atlas), SQL (PostgreSQL/MySQL), REST APIs, HTML5/CSS3</p>
-        </div>
-
-        <!-- Development Tools & Platforms -->
-        <div class="skill-card">
-          <h3>Tools & Platforms</h3>
-          <p>Git/GitHub, Visual Studio Code, Postman, ServiceNow Studio</p>
-        </div>
-
-        <!-- Soft Skills -->
-        <div class="skill-card">
-          <h3>Soft Skills</h3>
-          <p>Problem Solving, Communication, Adaptability, Team Collaboration</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Certifications Section -->
-  <section id="certifications" class="hidden">
-    <div class="container">
-      <p class="subtitle">My Credentials</p>
-      <h2 class="section-title">Certifications</h2>
-      <div class="cert-grid">
-        <div class="cert-card">
-          <h3 class="cert-name">AWS Certified Cloud Practitioner</h3>
-          <p class="cert-issuer">Amazon Web Services (AWS)</p>
-        </div>
-        <div class="cert-card">
-          <h3 class="cert-name">Fundamentals of Deep Learning</h3>
-          <p class="cert-issuer">NVIDIA DLI Certification</p>
-        </div>
-        <div class="cert-card">
-          <h3 class="cert-name">Flows - ServiceNow</h3>
-          <p class="cert-issuer">ServiceNow University</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="hidden">
-    <div class="container">
-      <p class="subtitle">Get In Touch</p>
-      <h2 class="section-title">Contact Me</h2>
-      <div class="contact-icons-wrapper">
-        <!-- Static Center Knob -->
-        <!-- <div class="dial-center">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
-            <path
-              d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.49-5.15-3.8-6.62-6.63l1.97-1.57c.23-.24.31-.56.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19c-.56 0-.99.45-.99.99 0 8.84 7.16 16 16 16 .54 0 .99-.45.99-.99v-3.81c0-.55-.45-1.02-1.02-1.02z">
-            </path>
-          </svg>
-        </div> -->
-        <a href="tel:+917671968323" class="dial-center" aria-label="Call">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
-            <path
-              d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.49-5.15-3.8-6.62-6.63l1.97-1.57c.23-.24.31-.56.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19c-.56 0-.99.45-.99.99 0 8.84 7.16 16 16 16 .54 0 .99-.45.99-.99v-3.81c0-.55-.45-1.02-1.02-1.02z">
-            </path>
-          </svg>
-        </a>
-
-
-        <!-- Rotating Ring -->
-        <div class="dial-ring">
-          <!-- Email -->
-          <a href="mailto:bharathreddy.mandadhi@gmail.com" class="contact-icon-box"
-            title="Email: bharathreddy.mandadhi@gmail.com">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM20 8l-8 5-8-5v10h16V8z">
-              </path>
-            </svg>
-          </a>
-
-          <!-- LinkedIn -->
-          <a href="https://www.linkedin.com/in/bharath-reddy-mandadhi/" target="_blank" class="contact-icon-box"
-            title="LinkedIn: Bharath Reddy Mandadhi">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z">
-              </path>
-            </svg>
-          </a>
-
-          <!-- WhatsApp -->
-          <a href="https://wa.me/917671968323" target="_blank" class="contact-icon-box"
-            title="WhatsApp: +91 76719 68323">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z">
-              </path>
-            </svg>
-          </a>
-
-          <!-- GitHub -->
-          <a href="https://github.com/bharath9812" target="_blank" class="contact-icon-box" title="GitHub: bharath9812">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z">
-              </path>
-            </svg>
-          </a>
-
-
-          <!-- Twitter/X -->
-          <a href="https://twitter.com/capt_price85" target="_blank" class="contact-icon-box"
-            title="Twitter: @username">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z">
-              </path>
-            </svg>
-          </a>
-
-          <!-- Instagram -->
-          <a href="https://instagram.com/m.bharathreddy0" target="_blank" class="contact-icon-box"
-            title="Instagram: @username">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z">
-              </path>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container"
-      style="text-align: center; padding: 20px 0; color: var(--secondary-text); font-size: 0.9rem;">
-      <p>Copyright &#169; 2026 Bharathsimha Reddy Mandadhi. All Rights Reserved.</p>
-    </div>
-  </footer>
-
+  <script src="app.js?v=2"></script>
 </body>
 
 </html>

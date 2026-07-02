@@ -1,0 +1,273 @@
+/* Base Styles */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Clean Minimal Utilities */
+.glass-panel {
+  transition: transform 0.3s ease;
+}
+.dark .glass-panel {
+}
+
+.glass-button {
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  color: #1d1d1f;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+.dark .glass-button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-weight: 300;
+}
+.glass-button:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+.dark .glass-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.icon-button {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+  color: #1d1d1f;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+}
+.dark .icon-button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+.icon-button:hover {
+  background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+}
+.dark .icon-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.skill-pill {
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease;
+}
+.dark .skill-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.9);
+}
+.skill-pill:hover {
+  background: rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+.dark .skill-pill:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Nav Rail Active State */
+.nav-btn {
+  position: relative;
+}
+
+.nav-btn.active {
+  color: #1d1d1f;
+}
+.dark .nav-btn.active {
+  color: #ffffff;
+}
+
+.nav-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: #1d1d1f;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+.dark .nav-btn.active::after {
+  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+/* Hide scrollbar completely but keep functionality if ever needed (though SPA is no-scroll) */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+/* Responsive adjustments for the absolute centering */
+@media (max-width: 768px) {
+  .view {
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+  #nav-rail {
+    padding: 0.5rem 1rem;
+    gap: 1rem;
+    bottom: 2rem;
+    top: auto;
+  }
+}
+
+/* Contact Dial */
+.contact-icons-wrapper {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    margin: 3rem auto 0;
+    border-radius: 50%;
+}
+
+.contact-icons-wrapper:hover .dial-ring {
+    animation-play-state: paused;
+}
+
+.dial-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: rotate-dial 60s linear infinite;
+}
+
+.dial-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0,0,0,0.05);
+    z-index: 5;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.dark .dial-center {
+    background: rgba(255,255,255,0.02);
+    border-color: rgba(255,255,255,0.05);
+}
+
+.dial-center:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    background: #1d1d1f;
+    border-color: #1d1d1f;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.dark .dial-center:hover {
+    background: #fff;
+    border-color: #fff;
+    color: #1d1d1f;
+    box-shadow: 0 10px 30px rgba(255,255,255,0.1);
+}
+
+.dial-center svg {
+    fill: currentColor;
+    transition: fill 0.3s ease;
+}
+
+.dial-center:hover svg {
+    animation: phone-shake 0.5s ease infinite;
+}
+
+.contact-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.05);
+    background: #f5f5f7;
+    color: #1d1d1f;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -25px;
+    margin-left: -25px;
+}
+.dark .contact-icon-box {
+    border-color: rgba(255,255,255,0.05);
+    background: #0a0a0a;
+    color: #fff;
+}
+
+/* Positioning 6 icons */
+.contact-icon-box:nth-child(1) { transform: rotate(0deg) translate(125px) rotate(0deg); }
+.contact-icon-box:nth-child(2) { transform: rotate(60deg) translate(125px) rotate(-60deg); }
+.contact-icon-box:nth-child(3) { transform: rotate(120deg) translate(125px) rotate(-120deg); }
+.contact-icon-box:nth-child(4) { transform: rotate(180deg) translate(125px) rotate(-180deg); }
+.contact-icon-box:nth-child(5) { transform: rotate(240deg) translate(125px) rotate(-240deg); }
+.contact-icon-box:nth-child(6) { transform: rotate(300deg) translate(125px) rotate(-300deg); }
+
+/* Hover */
+.contact-icon-box:nth-child(1):hover { transform: rotate(0deg) translate(125px) rotate(0deg) scale(1.3); }
+.contact-icon-box:nth-child(2):hover { transform: rotate(60deg) translate(125px) rotate(-60deg) scale(1.3); }
+.contact-icon-box:nth-child(3):hover { transform: rotate(120deg) translate(125px) rotate(-120deg) scale(1.3); }
+.contact-icon-box:nth-child(4):hover { transform: rotate(180deg) translate(125px) rotate(-180deg) scale(1.3); }
+.contact-icon-box:nth-child(5):hover { transform: rotate(240deg) translate(125px) rotate(-240deg) scale(1.3); }
+.contact-icon-box:nth-child(6):hover { transform: rotate(300deg) translate(125px) rotate(-300deg) scale(1.3); }
+
+.contact-icon-box:hover {
+    z-index: 10;
+    background: #1d1d1f;
+    color: #fff;
+    border-color: #1d1d1f;
+}
+.dark .contact-icon-box:hover {
+    background: #fff;
+    color: #1d1d1f;
+    border-color: #fff;
+}
+
+@keyframes phone-shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-15deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(15deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes rotate-dial {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
