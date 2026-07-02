@@ -404,6 +404,81 @@ function initCanvas() {
 
 // Splash Screen Logic
 function initSplash() {
+  const now = Date.now();
+  const lastSplash = localStorage.getItem('analytics_last_splash');
+  
+  // Populate dynamic system data
+  try {
+    const ua = navigator.userAgent;
+    let os = 'UNKNOWN SYS';
+    if (ua.indexOf('Mac') !== -1) os = 'MACOS';
+    if (ua.indexOf('Win') !== -1) os = 'WINDOWS';
+    if (ua.indexOf('Linux') !== -1) os = 'LINUX';
+    if (ua.indexOf('Android') !== -1) os = 'ANDROID';
+    if (ua.indexOf('like Mac') !== -1) os = 'IOS';
+    document.getElementById('splash-sys-os').innerText = 'SYS: ' + os;
+
+    let browser = 'WEBKIT';
+    if (ua.indexOf('Chrome') !== -1) browser = 'CHROME';
+    else if (ua.indexOf('Safari') !== -1) browser = 'SAFARI';
+    else if (ua.indexOf('Firefox') !== -1) browser = 'FIREFOX';
+    document.getElementById('splash-sys-browser').innerText = 'ENG: ' + browser;
+
+    document.getElementById('splash-sys-mem').innerText = 'MEM: ' + (navigator.deviceMemory ? navigator.deviceMemory + 'GB' : 'ALLOCATED');
+    document.getElementById('splash-sys-cores').innerText = 'CPU: ' + (navigator.hardwareConcurrency ? navigator.hardwareConcurrency + ' CORES' : 'ACTIVE');
+
+    document.getElementById('splash-sys-loc').innerText = 'LOC: ' + (navigator.language || 'EN-US').toUpperCase();
+    document.getElementById('splash-sys-tz').innerText = 'TZ: ' + Intl.DateTimeFormat().resolvedOptions().timeZone.toUpperCase();
+
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    let netType = 'UPLINK';
+    if (conn) {
+      if (conn.type) {
+        netType = conn.type.toUpperCase();
+      } else {
+        netType = conn.effectiveType === '4g' ? 'WIFI/LAN' : conn.effectiveType.toUpperCase();
+      }
+    }
+    document.getElementById('splash-sys-net').innerText = 'NET: ' + netType;
+    
+    // Ping is rounded to 25ms by browsers for security, so we add a dynamic hacker fluctuation effect
+    let basePing = conn && conn.rtt ? conn.rtt : 40;
+    const pingEl = document.getElementById('splash-sys-rtt');
+    const pingInterval = setInterval(() => {
+      const dynamicPing = basePing + Math.floor(Math.random() * 15) - 5; // fluctuate between -5 and +10
+      if (pingEl) pingEl.innerText = 'PING: ' + dynamicPing + 'ms';
+    }, 800);
+
+    // Clear the ping interval when splash hides
+    setTimeout(() => clearInterval(pingInterval), 4000);
+
+  } catch (e) {
+    console.warn("Failed to read system specs for splash");
+  }
+
+  // Skip splash if seen in the last 1 hour (3600000 ms)
+  if (lastSplash && (now - parseInt(lastSplash)) < 3600000) {
+    document.getElementById("view-splash").classList.add("hidden");
+    document.getElementById("view-splash").classList.remove("active-view");
+    
+    const landing = document.getElementById("view-landing");
+    landing.classList.remove("hidden");
+    landing.classList.add("active-view");
+    
+    // Ensure landing elements are instantly visible
+    gsap.set("#view-landing .landing-avatar", { opacity: 1, scale: 1, filter: "blur(0px)" });
+    gsap.set("#view-landing .landing-title", { opacity: 1, y: 0 });
+    gsap.set("#view-landing .landing-subtitle", { opacity: 1, y: 0 });
+    gsap.set("#view-landing .landing-actions", { opacity: 1, y: 0 });
+    gsap.set("#view-landing .landing-scroll", { opacity: 1, y: 0 });
+    
+    gsap.to("#nav-rail, #bottom-nav, #canvas-effect-selector", { opacity: 1, pointerEvents: "auto", duration: 0 });
+    document.querySelector('[data-target="view-landing"]').classList.add("active");
+    return;
+  }
+  
+  localStorage.setItem('analytics_last_splash', now.toString());
+
   const tl = gsap.timeline();
 
   tl.to(".splash-logo", { opacity: 1, duration: 1, ease: "power2.out" })
@@ -439,6 +514,10 @@ function initSplash() {
         gsap.fromTo("#view-landing .landing-actions",
           { opacity: 0, y: 20 },
           { opacity: 1, y: 0, duration: 1, delay: 0.6, ease: "power3.out" }
+        );
+        gsap.fromTo("#view-landing .landing-scroll",
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 1, delay: 0.8, ease: "power3.out" }
         );
 
         // Reveal Nav Rail, Bottom Nav, & Effect Selector
