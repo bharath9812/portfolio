@@ -139,6 +139,77 @@ body {
     bottom: 2rem;
     top: auto;
   }
+  .glass-button {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+  }
+  .icon-button {
+    width: 2.75rem;
+    height: 2.75rem;
+    font-size: 1.15rem;
+  }
+  .contact-icons-wrapper {
+    width: 280px !important;
+    height: 280px !important;
+    margin: 2rem auto 0 !important;
+  }
+  .dial-center {
+    width: 90px !important;
+    height: 90px !important;
+  }
+  .dial-center svg {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .contact-icon-box {
+    width: 44px !important;
+    height: 44px !important;
+    margin-top: -22px !important;
+    margin-left: -22px !important;
+  }
+  .contact-icon-box:nth-child(1) { transform: rotate(0deg) translate(100px) rotate(0deg) !important; }
+  .contact-icon-box:nth-child(2) { transform: rotate(60deg) translate(100px) rotate(-60deg) !important; }
+  .contact-icon-box:nth-child(3) { transform: rotate(120deg) translate(100px) rotate(-120deg) !important; }
+  .contact-icon-box:nth-child(4) { transform: rotate(180deg) translate(100px) rotate(-180deg) !important; }
+  .contact-icon-box:nth-child(5) { transform: rotate(240deg) translate(100px) rotate(-240deg) !important; }
+  .contact-icon-box:nth-child(6) { transform: rotate(300deg) translate(100px) rotate(-300deg) !important; }
+
+  .contact-icon-box:nth-child(1):hover { transform: rotate(0deg) translate(100px) rotate(0deg) scale(1.15) !important; }
+  .contact-icon-box:nth-child(2):hover { transform: rotate(60deg) translate(100px) rotate(-60deg) scale(1.15) !important; }
+  .contact-icon-box:nth-child(3):hover { transform: rotate(120deg) translate(100px) rotate(-120deg) scale(1.15) !important; }
+  .contact-icon-box:nth-child(4):hover { transform: rotate(180deg) translate(100px) rotate(-180deg) scale(1.15) !important; }
+  .contact-icon-box:nth-child(5):hover { transform: rotate(240deg) translate(100px) rotate(-240deg) scale(1.15) !important; }
+  .contact-icon-box:nth-child(6):hover { transform: rotate(300deg) translate(100px) rotate(-300deg) scale(1.15) !important; }
+}
+
+/* Extreme short viewports (High zoom / Landscape / small devices) */
+@media (max-height: 720px) and (max-width: 768px) {
+  .view {
+    padding-bottom: 6rem !important;
+  }
+  .landing-avatar {
+    margin-bottom: 0.5rem !important;
+  }
+  .landing-title {
+    font-size: 1.875rem !important; /* text-3xl */
+    margin-bottom: 0.25rem !important;
+  }
+  .landing-subtitle {
+    font-size: 0.65rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .landing-actions {
+    gap: 0.5rem !important;
+  }
+  .glass-button {
+    padding: 0.45rem 1rem !important;
+    font-size: 0.8rem !important;
+  }
+  .icon-button {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+    font-size: 1rem !important;
+  }
 }
 
 /* Contact Dial */

@@ -4,7 +4,7 @@ const canvasEffects = [
     name: "Constellation",
     particles: [],
     init(w, h) {
-      this.particles = Array.from({length: 80}, () => ({
+      this.particles = Array.from({length: 40}, () => ({
         x: Math.random() * w, y: Math.random() * h,
         vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
         r: Math.random() * 1.5
@@ -21,7 +21,7 @@ const canvasEffects = [
         if (mouse.x && mouse.y) {
           let dx = p.x - mouse.x, dy = p.y - mouse.y;
           let dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < 150) {
+          if (dist < 110) {
             p.x += dx/dist * 1.5; p.y += dy/dist * 1.5;
           }
         }
@@ -33,18 +33,18 @@ const canvasEffects = [
         let p1 = this.particles[i];
         if (mouse.x && mouse.y) {
           let dx = p1.x - mouse.x, dy = p1.y - mouse.y, dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < 150) {
+          if (dist < 110) {
             ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = `rgba(${isDark?'255,255,255':'0,0,0'}, ${(isDark?0.05:0.2)*(1-dist/150)})`;
+            ctx.strokeStyle = `rgba(${isDark?'255,255,255':'0,0,0'}, ${(isDark?0.05:0.2)*(1-dist/110)})`;
             ctx.stroke();
           }
         }
         for (let j = i + 1; j < this.particles.length; j++) {
           let p2 = this.particles[j];
           let dx = p1.x - p2.x, dy = p1.y - p2.y, dist = Math.sqrt(dx*dx + dy*dy);
-          if (dist < 150) {
+          if (dist < 110) {
             ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(${isDark?'255,255,255':'0,0,0'}, ${(isDark?0.05:0.2)*(1-dist/150)})`;
+            ctx.strokeStyle = `rgba(${isDark?'255,255,255':'0,0,0'}, ${(isDark?0.05:0.2)*(1-dist/110)})`;
             ctx.stroke();
           }
         }
@@ -57,7 +57,7 @@ const canvasEffects = [
     stars: [],
     lastTime: 0,
     init(w, h) {
-      this.stars = Array.from({length: 200}, () => ({
+      this.stars = Array.from({length: 80}, () => ({
         x: Math.random() * w - w/2, y: Math.random() * h - h/2, z: Math.random() * w
       }));
       this.lastTime = 0;
