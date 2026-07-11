@@ -164,25 +164,35 @@
 
       <!-- Micro Data Overlays -->
       <div class="absolute top-8 left-8 flex flex-col gap-1">
-        <div id="splash-sys-os" class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse">
+        <div id="splash-sys-os"
+          class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse">
           SYS: ONLINE</div>
-        <div id="splash-sys-browser" class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">ENG: WEBKIT</div>
+        <div id="splash-sys-browser"
+          class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">ENG: WEBKIT
+        </div>
       </div>
       <div class="absolute top-8 right-8 flex flex-col items-end gap-1">
-        <div id="splash-sys-mem" class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse"
+        <div id="splash-sys-mem"
+          class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse"
           style="animation-delay: 0.5s">MEM: SCANNING</div>
-        <div id="splash-sys-cores" class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">CPU: ACTIVE
+        <div id="splash-sys-cores"
+          class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">CPU: ACTIVE
         </div>
       </div>
       <div class="absolute bottom-8 left-8 flex flex-col gap-1">
-        <div id="splash-sys-loc" class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse"
+        <div id="splash-sys-loc"
+          class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse"
           style="animation-delay: 1s">LOC: DETECTING</div>
-        <div id="splash-sys-tz" class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">TZ: SYNCING</div>
+        <div id="splash-sys-tz"
+          class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">TZ: SYNCING
+        </div>
       </div>
       <div class="absolute bottom-8 right-8 flex flex-col items-end gap-1">
-        <div id="splash-sys-net" class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse"
+        <div id="splash-sys-net"
+          class="text-[10px] md:text-xs tracking-[0.3em] font-mono text-black/50 dark:text-white/30 animate-pulse"
           style="animation-delay: 1.5s">NET: UPLINK</div>
-        <div id="splash-sys-rtt" class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">PING: --ms
+        <div id="splash-sys-rtt"
+          class="text-[8px] md:text-[10px] tracking-[0.2em] font-mono text-black/40 dark:text-white/20">PING: --ms
         </div>
       </div>
 
@@ -280,8 +290,10 @@
         <div class="landing-actions opacity-0 flex flex-wrap justify-center gap-4 md:gap-6">
           <button class="nav-trigger glass-button text-sm md:text-base" data-target="view-about">Explore
             Profile</button>
-          <a href="https://drive.google.com/uc?export=download&id=1MmukvSuVErb_CaD8ZD-WR2GwnhCDROF7" target="_blank" download
-            onclick="gtag('event', 'download', { 'event_category': 'Resume', 'event_label': 'Google Drive CV' });"
+          <a href="https://bharath-resume.s3.ap-south-2.amazonaws.com/Bharath_July.pdf" target="_blank" id="view-cv-btn"
+            class="glass-button text-sm md:text-base">View CV</a>
+          <a href="javascript:void(0)" id="download-cv-btn"
+            onclick="forceDownload('https://bharath-resume.s3.ap-south-2.amazonaws.com/Bharath_July.pdf', 'Bharath_July.pdf'); gtag('event', 'download', { 'event_category': 'Resume', 'event_label': 'Bharath_July CV' });"
             class="glass-button bg-black text-white dark:bg-white dark:text-[#0a0a0a] font-medium border-none hover:bg-black/80 dark:hover:bg-white/90 text-sm md:text-base">Download
             CV</a>
           <div class="flex gap-4">
@@ -465,15 +477,7 @@
         </div>
 
         <!-- Horizontal Scroll Container -->
-        <div class="relative w-full group">
-          <!-- Scroll Indicators -->
-          <div
-            class="absolute top-0 bottom-0 left-[-10px] md:left-[-20px] w-12 md:w-24 bg-gradient-to-r from-[#f5f5f7] dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none opacity-0 transition-opacity duration-300"
-            id="skills-scroll-left-indicator"></div>
-          <div
-            class="absolute top-0 bottom-0 right-[-10px] md:right-[-20px] w-12 md:w-24 bg-gradient-to-l from-[#f5f5f7] dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none animate-[pulse_2s_ease-in-out_infinite]"
-            id="skills-scroll-right-indicator"></div>
-
+        <div class="relative w-full group mt-12 md:mt-24">
           <div id="skills-scroll"
             class="flex overflow-x-auto gap-4 md:gap-6 snap-x snap-mandatory pb-8 pt-4 px-2 -mx-2 [&::-webkit-scrollbar]:hidden items-stretch"
             style="scrollbar-width: none;">
@@ -565,16 +569,8 @@
           </a>
         </div>
 
-        <!-- Horizontal Scroll Container with Indicators -->
+        <!-- Horizontal Scroll Container -->
         <div class="relative w-full group">
-          <!-- Scroll Indicators -->
-          <div
-            class="absolute top-0 bottom-0 left-[-10px] md:left-[-20px] w-12 md:w-24 bg-gradient-to-r from-[#f5f5f7] dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none opacity-0 transition-opacity duration-300"
-            id="scroll-left-indicator"></div>
-          <div
-            class="absolute top-0 bottom-0 right-[-10px] md:right-[-20px] w-12 md:w-24 bg-gradient-to-l from-[#f5f5f7] dark:from-[#0a0a0a] to-transparent z-10 pointer-events-none animate-[pulse_2s_ease-in-out_infinite]"
-            id="scroll-right-indicator"></div>
-
           <div id="projects-scroll"
             class="flex overflow-x-auto gap-6 snap-x snap-mandatory pb-8 pt-4 px-2 -mx-2 [&::-webkit-scrollbar]:hidden items-stretch"
             style="scrollbar-width: none;">
@@ -583,6 +579,32 @@
             <div
               class="project-card shrink-0 w-[85vw] md:w-[350px] snap-center opacity-0 glass-panel rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1 group"
               data-project="1">
+              <div
+                class="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <i class="ph ph-layout text-xl"></i>
+              </div>
+              <h3 class="text-xl font-medium mb-3">DairyFlow Platform</h3>
+              <p class="text-sm text-[#86868b] dark:text-[#888888] font-light flex-grow">Full stack platform featuring
+                role-based access, ledger systems, comprehensive loan tracking, and automated payouts.</p>
+              <div class="mt-6 flex flex-wrap gap-2 mb-4">
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Node.js</span>
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Supabase</span>
+                <span
+                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Amplify</span>
+              </div>
+              <a href="https://kosha.bharathreddy.space/downloads" target="_blank" rel="noopener noreferrer"
+                onclick="event.stopPropagation(); window.trackEvent('app_download', '/projects/dairyflow', 'DairyFlow App Download (List Card)');"
+                class="flex items-center justify-center gap-2 w-full py-2.5 bg-black dark:bg-white text-white dark:text-black rounded-xl font-medium text-xs hover:scale-[1.02] transition-transform">
+                <i class="ph ph-download-simple text-sm"></i> Download (macOS & Windows)
+              </a>
+            </div>
+
+            <!-- Project 2 -->
+            <div
+              class="project-card shrink-0 w-[85vw] md:w-[350px] snap-center opacity-0 glass-panel rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1 group"
+              data-project="2">
               <div
                 class="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <i class="ph ph-hard-drives text-xl"></i>
@@ -600,10 +622,10 @@
               </div>
             </div>
 
-            <!-- Project 2 -->
+            <!-- Project 3 -->
             <div
               class="project-card shrink-0 w-[85vw] md:w-[350px] snap-center opacity-0 glass-panel rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1 group"
-              data-project="2">
+              data-project="3">
               <div
                 class="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <i class="ph ph-cloud-arrow-up text-xl"></i>
@@ -619,27 +641,6 @@
                   class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">CI/CD</span>
                 <span
                   class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">PostgreSQL</span>
-              </div>
-            </div>
-
-            <!-- Project 3 -->
-            <div
-              class="project-card shrink-0 w-[85vw] md:w-[350px] snap-center opacity-0 glass-panel rounded-3xl p-6 md:p-8 flex flex-col cursor-pointer border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20 transition-all hover:-translate-y-1 group"
-              data-project="3">
-              <div
-                class="w-12 h-12 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                <i class="ph ph-layout text-xl"></i>
-              </div>
-              <h3 class="text-xl font-medium mb-3">DairyFlow Platform</h3>
-              <p class="text-sm text-[#86868b] dark:text-[#888888] font-light flex-grow">Full stack management platform
-                with role-based access, REST APIs, and centralized workflows.</p>
-              <div class="mt-6 flex flex-wrap gap-2">
-                <span
-                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Node.js</span>
-                <span
-                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Supabase</span>
-                <span
-                  class="text-xs text-black/50 dark:text-white/50 border border-black/10 dark:border-white/10 px-2 py-1 rounded-md">Amplify</span>
               </div>
             </div>
 

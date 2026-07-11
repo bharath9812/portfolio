@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Resume Admin</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Config for Custom Colors/Fonts -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            bgDark: '#0a0a0a',
+            bgCard: 'rgba(255, 255, 255, 0.03)',
+            bgCardHover: 'rgba(255, 255, 255, 0.06)',
+            textMain: '#ffffff',
+            textMuted: '#888888',
+            accent: '#ffffff',
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- GSAP for Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- Canvas Effects System -->
+  <script src="canvas-effects.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="bg-[#f5f5f7] dark:bg-[#0a0a0a] text-[#1d1d1f] dark:text-white font-sans overflow-x-hidden antialiased selection:bg-black/20 dark:selection:bg-white/20 min-h-[100dvh] w-screen relative transition-colors duration-500">
+
+  <!-- Canvas Background for floating constellation/particles -->
+  <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+  
+  <div class="fixed top-6 right-6 z-50 flex gap-4">
+    <a href="index.html" class="icon-button text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors" title="Back to Portfolio">
+      <i class="ph ph-house"></i>
+    </a>
+    <button id="theme-toggle" class="icon-button text-[#86868b] dark:text-[#888888] hover:text-black dark:hover:text-white transition-colors" title="Toggle Theme">
+      <i class="ph ph-moon" id="theme-icon"></i>
+    </button>
+  </div>
+
+  <main class="w-full max-w-4xl mx-auto px-6 py-20 flex flex-col items-center relative z-10">
+    
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-light tracking-tight mb-4">Resume Manager</h1>
+      <p class="text-[#86868b] dark:text-[#888888] tracking-widest uppercase text-sm">Manage Active CV Links</p>
+    </div>
+
+    <!-- Add New Form -->
+    <div class="w-full glass-panel p-6 md:p-8 rounded-3xl mb-12 flex flex-col gap-4 max-w-xl">
+      <h2 class="text-xl font-medium">Add New Resume URL</h2>
+      <div>
+        <label class="block text-sm text-[#86868b] dark:text-[#888888] mb-2">Resume Name (e.g. Bharath_August_CV)</label>
+        <input type="text" id="resume-name" class="w-full p-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors font-light placeholder:text-[#86868b] dark:placeholder:text-[#888888]/50" placeholder="e.g., Bharath_August_CV">
+      </div>
+      <div>
+        <label class="block text-sm text-[#86868b] dark:text-[#888888] tracking-widest uppercase mb-3">S3 or Drive URL</label>
+        <input type="url" id="resume-url" class="w-full p-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 outline-none focus:border-black/30 dark:focus:border-white/30 transition-colors font-light placeholder:text-[#86868b] dark:placeholder:text-[#888888]/50" placeholder="https://...">
+      </div>
+      <button id="btn-add" class="glass-button bg-black text-white dark:bg-white dark:text-[#0a0a0a] font-medium border-none hover:bg-black/80 dark:hover:bg-white/90 text-sm md:text-base mt-4 self-center w-full max-w-[200px]">Save & Activate</button>
+    </div>
+
+    <!-- Resume List -->
+    <div class="w-full max-w-2xl">
+      <h2 class="text-xl font-medium mb-6">Resume History</h2>
+      <div id="resume-list" class="flex flex-col gap-4">
+        <!-- List injected via JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const API_URL = "https://portfolio-analytics-worker.bharath98.workers.dev/api/resumes";
+    const ANALYTICS_URL = "https://portfolio-analytics-worker.bharath98.workers.dev";
+
+    // Silently log admin page access
+    fetch(ANALYTICS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        visitor_id: 'admin_' + Math.random().toString(36).substr(2, 9),
+        session_id: 'sess_' + Date.now(),
+        event_type: 'admin_access',
+        page_path: window.location.pathname,
+        referrer: document.referrer || 'Direct',
+        time_spent_ms: 0,
+        active_time_ms: 0,
+        pages_visited: 1
+      })
+    }).catch(() => {});
+
+    // Theme setup
+    function initTheme() {
+      const isDark = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (isDark) { 
+        document.documentElement.classList.add('dark'); 
+        document.getElementById('theme-icon').classList.replace('ph-moon', 'ph-sun'); 
+      }
+    }
+    
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      const icon = document.getElementById('theme-icon');
+      if (isDark) { icon.classList.replace('ph-moon', 'ph-sun'); } 
+      else { icon.classList.replace('ph-sun', 'ph-moon'); }
+      // Re-init canvas if background changes
+      if (window.initCanvas) window.initCanvas();
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initTheme();
+      if (window.initCanvas) window.initCanvas();
+      loadResumes();
+    });
+
+    async function loadResumes() {
+      const listDiv = document.getElementById('resume-list');
+      listDiv.innerHTML = '<p class="text-[#86868b]">Loading...</p>';
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        
+        listDiv.innerHTML = '';
+        if (data.length === 0) {
+          listDiv.innerHTML = '<p class="text-[#86868b]">No resumes found.</p>';
+          return;
+        }
+
+        data.forEach(item => {
+          const div = document.createElement('div');
+          div.className = `glass-panel p-4 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-[2px] ${item.is_active ? 'border-green-500/50' : 'border-transparent'}`;
+          
+          const dateStr = new Date(item.created_at).toLocaleDateString(undefined, {month: 'short', day:'numeric', year:'numeric'});
+          
+          div.innerHTML = `
+            <div class="flex-1 w-full min-w-0">
+              <div class="flex items-center gap-2 mb-2">
+                <h3 class="font-medium truncate">${item.name}</h3>
+                ${item.is_active ? '<span class="text-[10px] bg-green-500/20 text-green-600 dark:text-green-400 px-2 py-0.5 rounded-full uppercase tracking-widest font-medium">Active</span>' : ''}
+              </div>
+              <p class="text-[11px] text-[#86868b] dark:text-[#888888] break-all leading-relaxed mb-2">${item.url}</p>
+              <p class="text-xs text-[#86868b]/50 dark:text-[#888888]/50">Added: ${dateStr}</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
+              ${!item.is_active ? `<button onclick="makeActive(${item.id})" class="glass-button text-xs py-2 px-4 flex-1 md:flex-none">Set Active</button>` : ''}
+              <button onclick="deleteResume(${item.id})" class="icon-button text-red-500 bg-red-500/10 border-red-500/20 hover:bg-red-500/20 shrink-0" title="Delete">
+                <i class="ph ph-trash"></i>
+              </button>
+            </div>
+          `;
+          listDiv.appendChild(div);
+        });
+      } catch (e) {
+        listDiv.innerHTML = '<p class="text-red-500">Failed to load resumes.</p>';
+        console.error(e);
+      }
+    }
+
+    document.getElementById('btn-add').addEventListener('click', async () => {
+      const name = document.getElementById('resume-name').value.trim();
+      const url = document.getElementById('resume-url').value.trim();
+      if (!name || !url) return alert('Name and URL required');
+      
+      const btn = document.getElementById('btn-add');
+      btn.innerText = 'Saving...';
+      
+      try {
+        await fetch(API_URL, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ name, url })
+        });
+        document.getElementById('resume-name').value = '';
+        document.getElementById('resume-url').value = '';
+        loadResumes();
+      } catch (e) {
+        alert('Error saving');
+      }
+      btn.innerText = 'Save & Activate';
+    });
+
+    window.makeActive = async function(id) {
+      if(!confirm('Set this resume as active for all visitors?')) return;
+      try {
+        await fetch(`${API_URL}/${id}/active`, { method: 'PUT' });
+        loadResumes();
+      } catch(e) { alert('Error activating'); }
+    };
+
+    window.deleteResume = async function(id) {
+      if(!confirm('Delete this resume?')) return;
+      try {
+        await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        loadResumes();
+      } catch(e) { alert('Error deleting'); }
+    };
+
+    loadResumes();
+  </script>
+</body>
+</html>

@@ -13,7 +13,7 @@ let analyticsSession = {
     let sid = localStorage.getItem('analytics_session_id');
     let expires = localStorage.getItem('analytics_session_expires');
     const now = Date.now();
-    
+
     // Create new session if none exists or if it has been > 30 mins since last activity
     if (!sid || !expires || now > parseInt(expires)) {
       sid = (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : Math.random().toString(36).substring(2);
@@ -21,7 +21,7 @@ let analyticsSession = {
       // Mark that a new session visit needs to be sent
       localStorage.setItem('analytics_needs_visit', 'true');
     }
-    
+
     // Rolling 30 minute expiry
     localStorage.setItem('analytics_session_expires', (now + 1800000).toString());
     return sid;
@@ -42,14 +42,14 @@ let analyticsSession = {
 };
 
 let lastInteraction = performance.now();
-['mousemove', 'scroll', 'keydown', 'click', 'touchstart'].forEach(evt => 
+['mousemove', 'scroll', 'keydown', 'click', 'touchstart'].forEach(evt =>
   window.addEventListener(evt, () => {
     const now = performance.now();
     if (now - lastInteraction < 30000) {
       analyticsSession.active_time_ms += (now - lastInteraction);
     }
     lastInteraction = now;
-  }, {passive: true})
+  }, { passive: true })
 );
 
 function trackEvent(eventType, pagePath, extraMeta = null) {
@@ -81,6 +81,45 @@ function trackEvent(eventType, pagePath, extraMeta = null) {
   }).catch(e => console.warn('Analytics error:', e));
 }
 
+// Fetch Dynamic Resume
+function initDynamicResume() {
+  fetch(`${ANALYTICS_API_URL}/api/active-resume`)
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.url) {
+        const viewBtn = document.getElementById('view-cv-btn');
+        const downloadBtn = document.getElementById('download-cv-btn');
+        if (viewBtn) {
+          viewBtn.href = data.url;
+          viewBtn.addEventListener('click', () => {
+            if (window.trackEvent) trackEvent('view_cv', window.location.pathname);
+            if (window.logAction) logAction('Clicked View CV');
+            gtag('event', 'view', { 'event_category': 'Resume', 'event_label': data.name + ' CV View' });
+          });
+        }
+        if (downloadBtn) {
+          const safeName = data.name.replace(/[^a-zA-Z0-9_\s-]/g, '');
+          // Clear any old inline onclick to prevent double firing if we switch to event listeners
+          downloadBtn.removeAttribute('onclick');
+          
+          // Use cloneNode to wipe old listeners cleanly before applying new ones (in case of re-fetch)
+          const newDownloadBtn = downloadBtn.cloneNode(true);
+          downloadBtn.parentNode.replaceChild(newDownloadBtn, downloadBtn);
+          
+          newDownloadBtn.addEventListener('click', () => {
+            if (window.trackEvent) trackEvent('download', window.location.pathname);
+            if (window.logAction) logAction('Downloaded Resume');
+            if (window.gtag) gtag('event', 'download', { 'event_category': 'Resume', 'event_label': safeName + ' CV Download' });
+            
+            // Trigger the actual file fetch/download
+            if (window.forceDownload) forceDownload(data.url, `${safeName}.pdf`);
+          });
+        }
+      }
+    })
+    .catch(e => console.error("Error fetching dynamic resume:", e));
+}
+
 // Global Unload (Session End) tracking
 let sessionEndTimeout;
 let sessionEnded = false;
@@ -101,12 +140,12 @@ window.addEventListener('visibilitychange', () => {
     }, 600000);
   } else if (document.visibilityState === 'visible') {
     clearTimeout(sessionEndTimeout);
-    
+
     // If they came back AFTER the session already ended, resume or start new
     if (sessionEnded && !isUnloading) {
       const now = Date.now();
       let expires = parseInt(localStorage.getItem('analytics_session_expires') || '0');
-      
+
       if (now > expires) {
         // True new session
         analyticsSession.session_id = (window.crypto && window.crypto.randomUUID) ? window.crypto.randomUUID() : Math.random().toString(36).substring(2);
@@ -116,7 +155,7 @@ window.addEventListener('visibilitychange', () => {
         analyticsSession.action_metadata = [];
         trackEvent('visit', window.location.hash || '/');
       }
-      
+
       localStorage.setItem('analytics_session_expires', (now + 1800000).toString());
       sessionEnded = false;
     }
@@ -143,7 +182,7 @@ async function trackInitialVisit() {
     try {
       const battery = await navigator.getBattery();
       analyticsSession.battery_status = `${Math.floor(battery.level * 100)}% ${battery.charging ? '(Charging)' : ''}`;
-    } catch(e) {}
+    } catch (e) { }
   }
   analyticsSession.pages_visited++;
   trackEvent('visit', window.location.hash || '/');
@@ -173,6 +212,7 @@ document.addEventListener('copy', () => {
 // ------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
+  initDynamicResume();
   initTheme();
   initCanvas();
   initSplash();
@@ -184,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function logAction(actionStr) {
   analyticsSession.action_metadata.push(actionStr);
-  
+
   // Cap the array at 40 items to prevent Discord payload rejection (1024 char limit)
   // Keeps the first 3 (how they started) and the last 36 (how they ended)
   if (analyticsSession.action_metadata.length > 40) {
@@ -205,8 +245,8 @@ function initAnalyticsListeners() {
     });
   });
 
-  // Track Resume Download
-  document.querySelectorAll('a[download]').forEach(btn => {
+  // Track Resume Download / View
+  document.querySelectorAll('a[download], a[href*="Resume.pdf"]').forEach(btn => {
     btn.addEventListener('click', () => {
       trackEvent('download', window.location.hash || '/', 'Downloaded Resume PDF');
       logAction(`Downloaded Resume`);
@@ -219,7 +259,7 @@ function initAnalyticsListeners() {
       trackEvent('github_click', window.location.hash || '/');
       logAction(`Clicked GitHub Profile`);
     });
-  }); 
+  });
 
   // Track Project Card Clicks
   document.querySelectorAll('.project-card').forEach(card => {
@@ -260,7 +300,7 @@ function initAnalyticsListeners() {
     btn.addEventListener('mouseenter', () => hoverStart = performance.now());
     btn.addEventListener('mouseleave', () => {
       if (hoverStart && (performance.now() - hoverStart) > 2000) {
-        logAction(`🤔 Hovered Contact/Download for ${Math.floor((performance.now() - hoverStart)/1000)}s (Hesitation)`);
+        logAction(`🤔 Hovered Contact/Download for ${Math.floor((performance.now() - hoverStart) / 1000)}s (Hesitation)`);
       }
       hoverStart = null;
     });
@@ -406,7 +446,7 @@ function initCanvas() {
 function initSplash() {
   const now = Date.now();
   const lastSplash = localStorage.getItem('analytics_last_splash');
-  
+
   // Populate dynamic system data
   try {
     const ua = navigator.userAgent;
@@ -440,7 +480,7 @@ function initSplash() {
       }
     }
     document.getElementById('splash-sys-net').innerText = 'NET: ' + netType;
-    
+
     // Ping is rounded to 25ms by browsers for security, so we add a dynamic hacker fluctuation effect
     let basePing = conn && conn.rtt ? conn.rtt : 40;
     const pingEl = document.getElementById('splash-sys-rtt');
@@ -460,23 +500,23 @@ function initSplash() {
   if (lastSplash && (now - parseInt(lastSplash)) < 3600000) {
     document.getElementById("view-splash").classList.add("hidden");
     document.getElementById("view-splash").classList.remove("active-view");
-    
+
     const landing = document.getElementById("view-landing");
     landing.classList.remove("hidden");
     landing.classList.add("active-view");
-    
+
     // Ensure landing elements are instantly visible
     gsap.set("#view-landing .landing-avatar", { opacity: 1, scale: 1, filter: "blur(0px)" });
     gsap.set("#view-landing .landing-title", { opacity: 1, y: 0 });
     gsap.set("#view-landing .landing-subtitle", { opacity: 1, y: 0 });
     gsap.set("#view-landing .landing-actions", { opacity: 1, y: 0 });
     gsap.set("#view-landing .landing-scroll", { opacity: 1, y: 0 });
-    
+
     gsap.to("#nav-rail, #bottom-nav, #canvas-effect-selector", { opacity: 1, pointerEvents: "auto", duration: 0 });
     document.querySelector('[data-target="view-landing"]').classList.add("active");
     return;
   }
-  
+
   localStorage.setItem('analytics_last_splash', now.toString());
 
   const tl = gsap.timeline();
@@ -680,6 +720,22 @@ function animateViewContent(target) {
 // Project Details Data
 const projectData = {
   "1": {
+    title: "DairyFlow – Full Stack Management Platform",
+    stack: "Node.js, Express.js, PostgreSQL, Supabase, AWS Amplify",
+    details: `
+      <ul class="list-disc pl-5 space-y-4 text-[#86868b] dark:text-[#888888] font-light leading-relaxed mb-6">
+        <li>Developed a full stack platform with role-based access control, integrating a comprehensive ledger system for financial tracking.</li>
+        <li>Built an advanced loan tracking module and automated payout workflows to streamline business operations.</li>
+        <li>Designed REST APIs and optimized database operations using indexing and server-side query filtering.</li>
+        <li>Deployed and managed the application using AWS Amplify with Supabase backend integration.</li>
+      </ul>
+      <a href="https://kosha.bharathreddy.space/downloads" target="_blank" rel="noopener noreferrer" onclick="window.trackEvent('app_download', '/projects/dairyflow', 'DairyFlow App Download (Detail Popup)');" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-black dark:bg-white text-white dark:text-black rounded-full font-medium text-sm hover:scale-105 transition-transform">
+        <i class="ph ph-download-simple text-lg"></i>
+        Download App (macOS & Windows)
+      </a>
+    `
+  },
+  "2": {
     title: "Self-Hosted Infrastructure & Container Platform",
     stack: "Debian Linux, Docker, Docker Compose, Kubernetes, SMB, YAML",
     details: `
@@ -692,7 +748,7 @@ const projectData = {
       </ul>
     `
   },
-  "2": {
+  "3": {
     title: "Scalable Cloud Infrastructure with CI/CD",
     stack: "AWS, Docker, GitHub Actions, PostgreSQL",
     details: `
@@ -702,18 +758,6 @@ const projectData = {
         <li>Containerized backend services using Docker and implemented CI/CD workflows using GitHub Actions.</li>
         <li>Integrated CloudWatch monitoring and centralized logging for infrastructure visibility, observability, and operational reliability.</li>
         <li>Improved deployment consistency and reduced manual configuration effort through automation workflows.</li>
-      </ul>
-    `
-  },
-  "3": {
-    title: "DairyFlow – Full Stack Management Platform",
-    stack: "Node.js, Express.js, PostgreSQL, Supabase, AWS Amplify",
-    details: `
-      <ul class="list-disc pl-5 space-y-4 text-[#86868b] dark:text-[#888888] font-light leading-relaxed">
-        <li>Developed a full stack web application with role-based access control and centralized workflow management.</li>
-        <li>Designed REST APIs and optimized database operations using indexing and server-side query filtering.</li>
-        <li>Implemented authentication workflows and backend integration for operational management features.</li>
-        <li>Deployed and managed the application using AWS Amplify with integrated backend services.</li>
       </ul>
     `
   },
@@ -759,3 +803,31 @@ function initProjectDetails() {
     switchView('view-projects');
   });
 }
+
+window.forceDownload = async function(url, filename) {
+  try {
+    // Attempt to fetch the file as a blob
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('Network response was not ok');
+    const blob = await response.blob();
+    
+    // Create an object URL for the blob
+    const blobUrl = window.URL.createObjectURL(blob);
+    
+    // Create a temporary anchor to trigger the download
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Clean up
+    window.URL.revokeObjectURL(blobUrl);
+    document.body.removeChild(a);
+  } catch (error) {
+    console.error('Download via blob failed, falling back to direct navigation:', error);
+    // If CORS prevents fetch, fallback to simply opening the URL
+    window.open(url, '_blank');
+  }
+};
